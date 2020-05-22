@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" type="text/css" href="styles/Chart.min.css"/>
+	<link rel="stylesheet" type="text/css" href="styles/swiper.min.css"/>
+	<link rel="stylesheet" type="text/css" href="styles/materialdesignicons.min.css">	
+	<link rel="stylesheet" type="text/css" href="styles/tooltips.css" />
+    <link rel="stylesheet" type="text/css" href="styles/style.css"/>
+	<link rel="stylesheet" type="text/css" href="styles/datepicker.min.css">
+	
+	<script type="text/javascript" src="scripts/jquery-3.4.1.slim.min.js"></script>
+	<script type="text/javascript" src="scripts/datepicker.min.js"></script>
+	<script type="text/javascript" src="scripts/i18n/datepicker.en.js"></script>	
+	<script type="text/javascript" src="scripts/Chart.min.js"></script>
+	<script type="text/javascript" src="scripts/Chart.bundle.min.js"></script>
+	<script type="text/javascript" src="scripts/Blob.js" ></script>
+	<script type="text/javascript" src="scripts/FileSaver.min.js"></script>
+	<script type="text/javascript" src="scripts/swiper.min.js"></script>
+
+	<title>OpenLDR - Dashboard</title>
+</head> <!-- class="scroll scroll2" -->
+<body style="position:relative; ">
+	<div id="appHolder" class="FlexDisplay Animation-3ms" style="width:100%; height:100%;  position:relative;">
+		<div id="content" class="FlexDisplay FlexColumn Animation-3ms Grayish-Lighter" style="width:100%; height:100%; position:relative;">
+			<div class="FlexDisplay Flex FlexRow scroll scroll2" style="width:100%; height:100%;">	
+				<div class="FlexDisplay FlexColumn Blue-Light Animation-3ms OptionsBarMini" style=" background:#000000; z-index: 994160;">
+					<div id="options" class="FlexDisplay Flex FlexColumn" style="width:100%; height: 100%; background:#000000;"></div>
+				</div>
+				<div id="innercontent" class="FlexDisplay Flex FlexGrow FlexColumn scroll scroll2 Animation-3ms" style="min-width:264px;">
+					<div class="FlexDisplay Grayish-Light Shadow-Navigation Header" style="width:100%; height: 56px; z-index:2; position:relative;">	
+						<div class="FlexDisplay Header" style="width:100%; height: 56px;position:relative; z-index: 994160;">	
+							<ul id="PageBreadCrumb" class='breadcrumbs'>
+								<li><div><span>OpenLDR</span></div></li>
+								<li><div><span>Dashboard</span></div></li>
+							</ul>
+						</div>
+						<div style="position:absolute; right:0px; height:55px;"></div>
+					</div>
+					<div class="FlexDisplay Shadow-Navigation FlexRow Shadow White" style="width:100%; min-height:40px; max-height:80px; z-index:100;">
+	
+					</div>								
+					<div class="FlexDisplay Flex FlexColumn FlexBoxSizing-BorderBox  scroll scroll2" style="width:100%; height:100%; position:relative;  overflow-y:auto;  overflow-x: hidden;">
+						<div id="subPageHolder" class="FlexDisplay Flex FlexColumn Grayish-Lighter" style="width:100%; ">	
+							<div id="subPage" class="FlexDisplay Flex FlexColumn FlexBoxSizing-BorderBox" style="width:100%; height: 100%;">
+							
+								<!-- TRANSMISSION -->
+								<div class="FlexDisplay FlexBoxSizing-BorderBox Animation-3ms" style="min-width:760px; padding:16px 16px 16px 16px;">
+									<div class="FlexColumn Shadow White Round" style="position:relative; padding:0px; display:block; width:100%;">
+										<div class="FlexDisplay FlexRow FlexBoxSizing-BorderBox Divider-Bottom">
+											<div class='FlexHidden Transmission-Spinner'>
+												<svg style=" width: 24px; height: 24px; margin: auto 0px auto 16px;" version="1.1" id="L7" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+													  viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+													 <path d="M31.6,3.5C5.9,13.6-6.6,42.7,3.5,68.4c10.1,25.7,39.2,38.3,64.9,28.1l-3.1-7.9c-21.3,8.4-45.4-2-53.8-23.3
+													  c-8.4-21.3,2-45.4,23.3-53.8L31.6,3.5z">
+														  <animateTransform 
+															 attributeName="transform" 
+															 attributeType="XML" 
+															 type="rotate"
+															 dur="1s" 
+															 from="0 50 50"
+															 to="360 50 50" 
+															 repeatCount="indefinite" />
+													  </path>
+													 <path d="M42.3,39.6c5.7-4.3,13.9-3.1,18.1,2.7c4.3,5.7,3.1,13.9-2.7,18.1l4.1,5.5c8.8-6.5,10.6-19,4.1-27.7
+													  c-6.5-8.8-19-10.6-27.7-4.1L42.3,39.6z">
+														  <animateTransform 
+															 attributeName="transform" 
+															 attributeType="XML" 
+															 type="rotate"
+															 dur="0.5s" 
+															 from="0 50 50"
+															 to="-360 50 50" 
+															 repeatCount="indefinite" />
+													  </path>
+													 <path d="M82,35.7C74.1,18,53.4,10.1,35.7,18S10.1,46.6,18,64.3l7.6-3.4c-6-13.5,0-29.3,13.5-35.3s29.3,0,35.3,13.5
+													  L82,35.7z">
+														  <animateTransform 
+															 attributeName="transform" 
+															 attributeType="XML" 
+															 type="rotate"
+															 dur="1s" 
+															 from="0 50 50"
+															 to="360 50 50" 
+															 repeatCount="indefinite" />
+													  </path>
+												</svg>
+											</div>										
+											<div class='FlexDisplay' style="padding:16px 8px 8px 16px;">
+												<span style="font-weight:bold;">TRANSMISSION</span>
+											</div>
+											<div class='FlexDisplay Flex Divider-Right'></div>
+											<div class='FlexDisplay Menu Divider-Right' style="z-index:4;">
+												<ul class='Selection select--generic year_transmission scroll scroll2'>						
+												</ul>
+											</div>
+											<div class='FlexDisplay Menu Divider-Right ' style="z-index:4;">
+												<ul class='Selection select--generic month_transmission scroll scroll2'>
+												</ul>
+											</div>							
+											<div class='FlexDisplay'>
+												<div id="searchBtn-Transmission" class="FlexDisplay NonStandard Button Directional"><i class="mdi mdi-magnify" style="margin-top:12px;"></i></div>
+											</div>
+										</div>
+										<div class="FlexHidden Flex FlexColumn FlexBoxSizing-BorderBox Transmission-Container" style="padding:0px;">
+											<div class="FlexDisplay Flex FlexColumn FlexBoxSizing-BorderBox" style="margin:8px; border: 1px solid rgba(0,0,0,.1);">
+												<div class="swiper-container-Transmission Overflow-Hidden" style="width: 100%; height: 100%;">
+													<div class="swiper-wrapper">
+													  <div class="swiper-slide">
+														<div class="FlexDisplay Flex FlexRow Divider-Bottom" style="min-height:32px; max-height:32px;">
+															<span style="font-weight:bold; font-size:12px; margin:8px 8px 8px 16px;">Any* HVL/EID Data Submission by Testing Laboratory</span>
+															<div class='FlexDisplay Flex'></div>
+															<div class='FlexDisplay Divider-Left '>
+																<div class="FlexDisplay NonStandard Button Directional Disabled"><i class="mdi mdi-chevron-left" style="margin-top:2px; height:32px; font-size:24px; color:rgba(0, 0, 0, 0.2);"></i></div>
+															</div>
+															<div class='FlexDisplay Divider-Left '>
+																<div onclick="transaction_transition(1)" class="FlexDisplay NonStandard Button Directional"><i class="mdi mdi-chevron-right" style="margin-top:2px; height:32px; font-size:24px;"></i></div>
+															</div>
+														</div>
+														<div class="FlexDisplay Flex FlexRow FlexBoxSizing-BorderBox Transmission" style="padding:0px;">
+														</div>
+														<div class="FlexDisplay Flex FlexRow" style="padding:8px 8px 8px 8px;">
+															<span style="font-size:10px;">*[Any HVL/EID data captured when: specimens registered, rejected, tested but not authorized and authorized. Only submission status on work days (Mondays to Fridays) is shown]</span>
+														</div>
+														<div class="FlexDisplay Flex FlexRow" style="padding:4px 8px 4px 8px;">
+															<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAAtFJREFUeNrsm/2R2jAQxX/KXAEugRKcDkwHpIJwFRxXAVABRwX4KjhSgekAl0AHcQfKH4jE0UggsCXL2DvjYcYI8Ht++6FdI6SUDNm+MXBrToAQ3R73XWuKEAVCJMNTgBBL4AhkwNvf81LKZgd0e9y+vlTCUYJUx1HC5PL+i1UqsOnJnb21IgUukv9Ayvf6my+WDyVKKs9iFfCKlPuhZoHSBP6aAnTLgVMPgC5qcncyVwI+kfLwoA/6tUshJ8ROA1+5kNF/FxAiQYgjMK+dfQXKIVSCCVCoSP8PvJT5EErhVBU2D4O/JwbECL7QfPxu8H1VQGvg+0hAq+D7RoAJfN4EfJ8ImBjBn9Pd0zdEEuBLA1+2Ab4PBJjy/AmYxtMR8ms7DXwF/FCvT0/ADphp55xL3L4TMNdq+3MzA/Zt/1CMBKTq7tftALz7+LHYCLgEPQx+zxAIKAx7+Nc2g17MBGy0iO/N730QkCm/LYAld7al1OcX2rkTsPbNerPt8HnC8sX/HeRMpa+po3Qv30FI6TdXwBn8EXP7PDUEs2v5PjFI/xDC7x4nQMoK+A6srqSzpUO+n3Uh/RoO4zgpq42SpITsxmhsrq2vHxPLWCuR8NuwPmtlNAZF7TsL27q2gmCuZGuy5R3S34eSvo80uMY8PJmr/XzdZgbp46vaC0VAdcV3l1rUNw1eV3QwfWq7EModVPBmUEQFbLuovnxUgjYV/FTATVnjI0TOD0WATQULi/TDpr1Ae4GtpeKbOa7tPQG5o6QrtfbpCKgcd3Gd+X6I7bCLtD+73oP7JKDkegNzTwRPnfhuiGxjvvshCLDFgZXvTk8sBOhRvlRb6DWRWIie4K9aapzS8mCjqYV4QmTPub2VE6GF6gpHCT4kAYwEjASMBERprlkg7fyZYJvZrytpk4DN6AIjAcOKASUtPokVgVXWEDL+c3SMASMBIwEjAQO2PwMA78+JlV+IM2oAAAAASUVORK5CYII=" style="width:12px; height:12px;"/>
+															<span style="font-size:10px; padding:0px 0px 0px 4px;"> - No data with that date stamp available on OpenLDR</span>
+														</div>
+														<div class="FlexDisplay Flex FlexRow" style="padding:4px 8px 4px 8px;">
+															<img src="data:image/png;base64,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" style="width:12px; height:12px;"/>
+															<span style="font-size:10px; padding:0px 0px 0px 4px;"> - Data with that date stamp available on OpenLDR</span>
+														</div>
+														<div class="FlexDisplay Flex FlexRow" style="padding:4px 8px 4px 8px;">
+															<img src="data:image/png;base64,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" style="width:12px; height:12px;"/>
+															<span style="font-size:10px; padding:0px 0px 0px 4px;"> - Data with date stamp should not have occurred</span>
+														</div>
+													  </div>
+													  <div class="swiper-slide">							
+														<div class="FlexDisplay Flex FlexRow Divider-Bottom" style="min-height:32px; max-height:32px;">
+															<span style="font-weight:bold; font-size:12px; margin:8px 8px 8px 16px;">HVL/EID specimen registered, tested and authorized</span>
+															<div class='FlexDisplay Flex'></div>
+															<div class='FlexDisplay Divider-Left '>
+																<div onclick="transaction_transition(0)" class="FlexDisplay NonStandard Button Directional"><i class="mdi mdi-chevron-left" style="margin-top:2px; height:32px; font-size:24px;"></i></div>
+															</div>
+															<div class='FlexDisplay Divider-Left '>
+																<div class="FlexDisplay NonStandard Button Directional Disabled"><i class="mdi mdi-chevron-right" style="margin-top:2px; height:32px; font-size:24px; color:rgba(0, 0, 0, 0.2);"></i></div>
+															</div>
+														</div>
+														<div class="FlexDisplay Flex FlexRow FlexBoxSizing-BorderBox Transmission-Details" style="padding:0px;">
+														</div>
+														<div class="FlexDisplay Flex FlexRow" style="padding:4px 8px 4px 8px;">
+															<span style="font-size:10px; padding:0px 0px 0px 0px;">(a) number in brackets indicates specimens tested among those registered</span>
+														</div>
+														<div class="FlexDisplay Flex FlexRow" style="padding:4px 8px 4px 8px;">
+															<span style="font-size:10px; padding:0px 0px 0px 0px;">(b) number in brackets indicates specimens authorized among those tested</span>
+														</div>
+													  </div>
+													</div>
+												</div>
+											</div>
+											<div class="FlexDisplay Flex FlexColumn FlexBoxSizing-BorderBox" style="margin:8px; border: 1px solid rgba(0,0,0,.1);">
+												<div class="swiper-container-OtherTransmission Overflow-Hidden " style="width: 100%; height: 100%;">
+													<div class="swiper-wrapper">
+														<div class="swiper-slide">
+															<div class="FlexDisplay Flex FlexRow Divider-Bottom" style="min-height:32px; max-height:32px;">
+																<span style="font-weight:bold; font-size:12px; margin:8px 8px 8px 16px;">Any* Other Test Data Submission by Testing Laboratory</span>
+																<div class='FlexDisplay Flex'></div>
+																<div class='FlexDisplay Divider-Left '>
+																	<div class="FlexDisplay NonStandard Button Directional Disabled"><i class="mdi mdi-chevron-left" style="margin-top:2px; height:32px; font-size:24px; color:rgba(0, 0, 0, 0.2);"></i></div>
+																</div>
+																<div class='FlexDisplay Divider-Left '>
+																	<div onclick="transaction_transition_other(1)" class="FlexDisplay NonStandard Button Directional"><i class="mdi mdi-chevron-right" style="margin-top:2px; height:32px; font-size:24px;"></i></div>
+																</div>
+															</div>
+															<div class="FlexDisplay Flex FlexRow FlexBoxSizing-BorderBox OtherTransmission" style="padding:0px;">
+															</div>
+															<div class="FlexDisplay Flex FlexRow" style="padding:8px 8px 8px 8px;">
+																<span style="font-size:10px;">*[Any data captured: specimens registered, rejected, tested but not authorized and authorized. Only submission status on work days (Mondays to Fridays) is shown]</span>
+															</div>
+															<div class="FlexDisplay Flex FlexRow" style="padding:4px 8px 4px 8px;">
+																<img src="data:image/png;base64,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" style="width:12px; height:12px;"/>
+																<span style="font-size:10px; padding:0px 0px 0px 4px;"> - No data with that date stamp available on OpenLDR</span>
+															</div>
+															<div class="FlexDisplay Flex FlexRow" style="padding:4px 8px 4px 8px;">
+																<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAAqZJREFUeNrsm+GRokAQhT+vLgBCuBDYDDQCJIJdI1g3AjUCNQLZCMAINIMlBEMgA+5P7xVHDdS4DMMM0FWWFiLwHm9eTzfjoixLphy/mHj87nqAxTUeFEAZpc9cawgcgbiM0mJSClhc4x3wBSyBd2MK8AB4CFyAUDblwOe/71UmWJHKGCIEAvl8KqP0Q8cDApHKWKIANmWUZlPNArkK/DMekAAPD4BuK3I3mgY/yyi9u5wGF9f4UgNf6JDhfRZYXOMAuFVcHmADvOr4mO8eoARfRmkyhalwKBObH4P3eQiEcueDLuB9VYAx8D4SYBS8bwSowCddwPtEwB8VeEl3o2+IBEBaA5+bAO8DAao8/wBWpk7gOgGXGvgCiOV99ARcgHVt20bkz9gJeJNXNU5AZvpELhIQyt2vxh346ONkrhHwbXooxj1TIOCmqOE3Jk3PZQKONcfvbdz3QcBSxu0N2PFkW0p+v61tewCHvlnvVA5LNybl/87LUtLXSlO638fApvQ7K0DAf6FuO4UKM2vL94FC+ncb4+7HBMiztRdg35LOdhr5fj2E9I14gJBwaClM9lLJNUn/OJT0TZtgIrJVxe4J6We2pN9HGjygfnjyplDBWiF9+prt2SKgaBm7Ow3p7xng6ZPpiVCioYJ3hSIK4DzE7KuPmWCTCl4FuCprnGwaX98ENKlg2yB9q2nPVi1wbkh7a819vScg0ZR0IfuOjoBCs4obbOzbKId1pP05dA3eJwE57Q3MDAdWnfTdEDm7fPdtEJC1FEnZFAiou3wuJfQBR8JGT/BaSY0rDD/Y6Bo2VohkUuMnOBi2usJOgrdJADMBMwEzAU6GbhYIh14T3BQt1xWYJOA4D4GZgGl5QI7BlVgORNHoIfM/R2cPmAmYCZgJmHD8HQAE8a3nnAnAzwAAAABJRU5ErkJggg==" style="width:12px; height:12px;"/>
+																<span style="font-size:10px; padding:0px 0px 0px 4px;"> - Data with that date stamp available on OpenLDR</span>
+															</div>
+															<div class="FlexDisplay Flex FlexRow" style="padding:4px 8px 4px 8px;">
+																<img src="data:image/png;base64,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" style="width:12px; height:12px;"/>
+																<span style="font-size:10px; padding:0px 0px 0px 4px;"> - Data with date stamp should not have occurred</span>
+															</div>								
+														</div>
+														<div class="swiper-slide">							
+															<div class="FlexDisplay Flex FlexRow Divider-Bottom" style="min-height:32px; max-height:32px;">
+																<span style="font-weight:bold; font-size:12px; margin:8px 8px 8px 16px;">Other specimens registered, tested and authorized</span>
+																<div class='FlexDisplay Flex'></div>
+																<div class='FlexDisplay Divider-Left '>
+																	<div onclick="transaction_transition_other(0)" class="FlexDisplay NonStandard Button Directional"><i class="mdi mdi-chevron-left" style="margin-top:2px; height:32px; font-size:24px;"></i></div>
+																</div>
+																<div class='FlexDisplay Divider-Left '>
+																	<div class="FlexDisplay NonStandard Button Directional Disabled"><i class="mdi mdi-chevron-right" style="margin-top:2px; height:32px; font-size:24px; color:rgba(0, 0, 0, 0.2);"></i></div>
+																</div>		
+															</div>
+															<div class="FlexDisplay Flex FlexRow FlexBoxSizing-BorderBox OtherTransmission-Details" style="padding:0px;">
+															</div>
+															<div class="FlexDisplay Flex FlexRow" style="padding:4px 8px 4px 8px;">
+																<span style="font-size:10px; padding:0px 0px 0px 0px;">(a) number in brackets indicates specimens tested among those registered</span>
+															</div>
+															<div class="FlexDisplay Flex FlexRow" style="padding:4px 8px 4px 8px;">
+																<span style="font-size:10px; padding:0px 0px 0px 0px;">(b) number in brackets indicates specimens authorized among those tested</span>
+															</div>
+													  </div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- ------------ -->
+							
+							</div>
+						</div>			
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Fucntions for this page -->
+    <script src="scripts/main.js"></script>
+</body>
+</html>

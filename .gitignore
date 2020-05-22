@@ -1,0 +1,5 @@
+.vs/OpenLDR Dashboard/
+.vs/OpenLDR.Dashboard.API/
+packages/
+api/obj/
+api/bin/
