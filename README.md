@@ -1,1 +1,1 @@
-# OpenLDR-Dashboard
+# OpenLDR Dashboard
