@@ -445,7 +445,7 @@ function createTickedTable(id, labs, headers, month, populatingFunction){
 	doc.append(html);
 }
 
-function createTransmisionReport(data, year, month, output){
+function createTransmisionReport(data, year, month, output, systemsWithOtherTests){
 	//Clear Everything
 	$('.Transmission').html("");
 	$('.OtherTransmission').html("");
@@ -473,8 +473,8 @@ function createTransmisionReport(data, year, month, output){
 		return acc;
 	},[]));
 	
-	//Filter out disalab labs only
-	var disalabs = labs.filter(function(v) { return (v.System === "Disa*Lab"); });
+	//Filter out other labs that perform other tests too
+	var labsThatSubmitOtherTests = labs.filter(function(v) { return systemsWithOtherTests.includes(v.System); });
 	
 	var data_grouped = Object.values(data.reduce((acc, { System, TestingLab, Test, Registered, Tested, Authorised, Tested_Workload, Authorised_Workload }) => {
 		if(!TestingLab.startsWith("Unknown")){
@@ -500,7 +500,7 @@ function createTransmisionReport(data, year, month, output){
 	createTickedTable('.Transmission', labs, businessDays, monthShortNames[month-1],
 		function(date, element, colIndex, rowIndex){
 			
-			var lab_data = data_grouped.filter(function(v) { return (v.System === element.System && v.TestingLab === element.TestingLab && (v.Test === 'HIVVL' || v.Test === 'HIVPC' || v.Test === 'EID')); });
+			var lab_data = data.filter(function(v) { return (v.System === element.System && v.TestingLab === element.TestingLab && (v.Test === 'HIVVL' || v.Test === 'HIVPC' || v.Test === 'EID')); });
 			var found = lab_data.filter(function(v) { return (v.Date === date); });
 			
 			var _html = "";	
@@ -516,10 +516,10 @@ function createTransmisionReport(data, year, month, output){
 	);
 	
 	//Create Ticked Table : Other
-	createTickedTable('.OtherTransmission', disalabs, businessDays, monthShortNames[month-1],
+	createTickedTable('.OtherTransmission', labsThatSubmitOtherTests, businessDays, monthShortNames[month-1],
 		function(date, element, colIndex, rowIndex){
 			
-			var lab_data = data_grouped.filter(function(v) { return (v.System === element.System && v.TestingLab === element.TestingLab && v.Test === 'Other'); });
+			var lab_data = data.filter(function(v) { return (v.System === element.System && v.TestingLab === element.TestingLab && v.Test === 'Other'); });
 			var found = lab_data.filter(function(v) { return (v.Date === date); });
 			
 			var _html = "";	
@@ -565,7 +565,7 @@ function createTransmisionReport(data, year, month, output){
 	);
 
 	//Create Data Table : Other
-	createDataTable('.OtherTransmission-Details', disalabs, [ "Specimens Registered", "Specimens Tested (a)", "Specimens Tested (a)" ],
+	createDataTable('.OtherTransmission-Details', labsThatSubmitOtherTests, [ "Specimens Registered", "Specimens Tested (a)", "Specimens Tested (a)" ],
 		function(element, colIndex, rowIndex){
 			var other = groupByTestingArea(data_other, element).shift();
 			
@@ -598,17 +598,21 @@ function fetchTransmissionData(year, month){
 		$('.OtherTransmission').html("");
 		$('.Transmission-Details').html("");
 		$('.OtherTransmission-Details').html("");
-		$(".Transmission-Container").removeClass("FlexDisplay");
-		$(".Transmission-Spinner").addClass("FlexDisplay");		
+		$('.Transmission-Container').removeClass("FlexDisplay");
+		$('.Transmission-Spinner').addClass("FlexDisplay");		
 		$('#searchBtn-Transmission').addClass('Disabled');
 		
-		
 		var timeout = 1000*60*5; //Time out after 5 minutes cause way too long
-		fetch('https://localhost:44325/api/openldr/general/'+apikey+'/v1/json/transmission/'+year+'/'+month, {},timeout)
+		var port = 44325;
+		var protocol = 'https';
+		var domain = 'localhost';
+		var url = protocol+'://'+domain+':'+port+'/api/openldr/general/'+apikey+'/v1/json/transmission/'+year+'/'+month;
+
+		fetch(url, {},timeout)
 		.then((response) => response.json())
 		.then((data) => {
 			if(data.length > 0){
-				createTransmisionReport(data, year, month, null);
+				createTransmisionReport(data, year, month, null, ["Disa*Lab"]);
 			}
 			else{
 				//TODO: Show dialog
@@ -634,18 +638,19 @@ function fetchTransmissionData(year, month){
 			$(".Transmission-Spinner").removeClass("FlexDisplay");
 			$('#searchBtn-Transmission').removeClass('Disabled');
 		});	
+		
 	}
 }
 
 function fetchData(){
 	var year = $(".Selection.year_transmission").find("li[data-selected=true]").attr('data-value');
 	var month = $(".Selection.month_transmission").find("li[data-selected=true]").attr('data-value');
-	
+		
 	var yearRex = /^(19[0-9]{2}|[2-9][0-9]{3})$/gi;
 	var monthRex = /^([1-9]|0[1-9]|1[0-2])$/gi;
 
 	if(yearRex.test(year)){
-		if(monthRex.test(month)){
+		if(monthRex.test(month)){			
 			fetchTransmissionData(year, month);
 		}
 		else console.error("Failed to parse month");
@@ -662,7 +667,7 @@ function init(){
 	for(var i=1; i<=12; i++){
 		$(".month_transmission").append("<li "+(i==dt_trasmission.getMonth()+1 ? "data-selected='true'" : "")+" data-value='"+i+"'>"+i+"</li>");
 	}
-
+	
 	fetchData();
 }
 

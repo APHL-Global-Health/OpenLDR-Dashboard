@@ -5,6 +5,13 @@
 ### Features
 - Restful API : uses .Net Core 3.0.
 
+### Screenshots
+#### Transmission
+![](https://github.com/APHL-Global-Health/OpenLDR-Dashboard/blob/master/assets/images/ticks_tables.jpg)
+
+#### Data
+![](https://github.com/APHL-Global-Health/OpenLDR-Dashboard/blob/master/assets/images/data_tables.jpg)
+
 ### Project Structure
     .
 	├── api
