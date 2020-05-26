@@ -1,0 +1,22 @@
+<svg id="windows" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="134" height="20" viewBox="0 0 134 20">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1" data-name="Rectangle 1" width="134" height="20" rx="3" fill="#fff"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#bbb" stop-opacity="0.102"/>
+      <stop offset="1" stop-opacity="0.102"/>
+    </linearGradient>
+  </defs>
+  <g id="Background" clip-path="url(#clip-path)">
+    <path id="Path_1" data-name="Path 1" d="M0,0H55.9V20H0Z" fill="#555"/>
+    <path id="Path_2" data-name="Path 2" d="M37,0h77.954V20H37Z" transform="translate(18.896)" fill="#007ec6"/>
+    <path id="Path_3" data-name="Path 3" d="M0,0H133.85V20H0Z" fill="url(#linear-gradient)"/>
+  </g>
+  <g id="Test" transform="translate(8.5 1)">
+    <text id="Microsoft" transform="translate(20 13)" fill="rgba(1,1,1,0.3)" font-size="11" font-family="SegoeUI, Segoe UI"><tspan x="-23.088" y="0">Microsoft</tspan></text>
+    <text id="Microsoft-2" data-name="Microsoft" transform="translate(20 12)" fill="#fff" font-size="11" font-family="SegoeUI, Segoe UI"><tspan x="-23.088" y="0">Microsoft</tspan></text>
+    <text id="windows_10" data-name="windows 10" transform="translate(83.85 13)" fill="rgba(1,1,1,0.3)" font-size="11" font-family="SegoeUI, Segoe UI"><tspan x="-28.625" y="0">windows 10</tspan></text>
+    <text id="windows_10-2" data-name="windows 10" transform="translate(83.85 12)" fill="#fff" font-size="11" font-family="SegoeUI, Segoe UI"><tspan x="-28.625" y="0">windows 10</tspan></text>
+  </g>
+</svg>
