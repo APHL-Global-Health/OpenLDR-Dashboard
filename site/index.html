@@ -220,6 +220,81 @@
 									</div>
 								</div>
 								<!-- ------------ -->
+								
+								
+								<!-- SURVEILLANCE -->
+								<div class="FlexDisplay FlexBoxSizing-BorderBox Animation-3ms" style="min-width:760px; padding:16px 16px 16px 16px;">
+									<div class="FlexColumn Shadow White Round" style="position:relative; padding:0px; display:block; width:100%;">
+										<div class="FlexDisplay FlexRow FlexBoxSizing-BorderBox Divider-Bottom">
+											<div class='FlexHidden Surveillance-Spinner'>
+												<svg style=" width: 24px; height: 24px; margin: auto 0px auto 16px;" version="1.1" id="L7" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+													  viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+													 <path d="M31.6,3.5C5.9,13.6-6.6,42.7,3.5,68.4c10.1,25.7,39.2,38.3,64.9,28.1l-3.1-7.9c-21.3,8.4-45.4-2-53.8-23.3
+													  c-8.4-21.3,2-45.4,23.3-53.8L31.6,3.5z">
+														  <animateTransform 
+															 attributeName="transform" 
+															 attributeType="XML" 
+															 type="rotate"
+															 dur="1s" 
+															 from="0 50 50"
+															 to="360 50 50" 
+															 repeatCount="indefinite" />
+													  </path>
+													 <path d="M42.3,39.6c5.7-4.3,13.9-3.1,18.1,2.7c4.3,5.7,3.1,13.9-2.7,18.1l4.1,5.5c8.8-6.5,10.6-19,4.1-27.7
+													  c-6.5-8.8-19-10.6-27.7-4.1L42.3,39.6z">
+														  <animateTransform 
+															 attributeName="transform" 
+															 attributeType="XML" 
+															 type="rotate"
+															 dur="0.5s" 
+															 from="0 50 50"
+															 to="-360 50 50" 
+															 repeatCount="indefinite" />
+													  </path>
+													 <path d="M82,35.7C74.1,18,53.4,10.1,35.7,18S10.1,46.6,18,64.3l7.6-3.4c-6-13.5,0-29.3,13.5-35.3s29.3,0,35.3,13.5
+													  L82,35.7z">
+														  <animateTransform 
+															 attributeName="transform" 
+															 attributeType="XML" 
+															 type="rotate"
+															 dur="1s" 
+															 from="0 50 50"
+															 to="360 50 50" 
+															 repeatCount="indefinite" />
+													  </path>
+												</svg>
+											</div>										
+											<div class='FlexDisplay Menu Divider-Right ' style="z-index:4;">
+												<ul class='Selection select--generic filter_section'>
+													<li data-selected='true' data-value='turnaroundtime'><b style="color:black;">TURN AROUND TIME</b></li>
+													<li data-value='request_breakdown'><b style="color:black;">REQUEST BREAKDOWN</b></li>
+													<li data-value='susceptability'><b style="color:black;">SUSCEPTABILITY</b></li>
+													<!--<li data-value='load_suppression'><b style="color:black;">LOAD SUPPRESSION</b></li>-->
+												</ul>
+											</div>
+											<div class='FlexDisplay Flex Divider-Right'></div>
+											<div class='FlexHidden Divider-Right ' style="z-index:4;">
+												<ul class='Selection select--generic filter_class'>
+													<li data-selected='true' data-value='Resistant'>Resistant</li>
+													<li data-value='Sensitive'>Sensitive</li>
+													<li data-value='Intermediate'>Intermediate</li>
+												</ul>
+											</div>
+											<div class='FlexDisplay Menu Divider-Right ' style="z-index:4;">
+												<input type="text" placeholder="Date Range" class="surveillance-datepicker-range" style="padding:0px 0px 0px 8px;"/>
+											</div>					
+											<div class='FlexDisplay'>
+												<div id="searchBtn-Surveillance" class="FlexDisplay NonStandard Button Directional"><i class="mdi mdi-magnify" style="margin-top:12px;"></i></div>
+											</div>
+										</div>
+										<div class="FlexHidden Flex FlexColumn FlexBoxSizing-BorderBox Surveillance-Container " style="padding:8px;">
+											<div  style="width:98%; height:100%; margin:24px auto 0px auto; display:block;">
+												<canvas id="surveillance_chart_canvas" style="height:100%; "></canvas>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- ------------ -->
 							
 							</div>
 						</div>			

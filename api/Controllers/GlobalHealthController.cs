@@ -74,9 +74,9 @@ namespace OpenLDR.Dashboard.API.Controllers
             return Core.OutputText("Global Health API version " + ApiVersion).Result;
         }
 
-        //Example = https://[Domain]:[Port]/api/globalhealth/e98389ca62d99875ba7a4e0f2929960b/v1/json/susceptibility
-        [HttpGet("{apikey}/v{version}/{returntype}/susceptibility")]
-        public async Task<string> GetSusceptibility(string apikey, double version, string returntype)
+        //Example = https://[Domain]:[Port]/api/openldr/globalhealth/e98389ca62d99875ba7a4e0f2929960b/v1/json/organisms
+        [HttpGet("{apikey}/v{version}/{returntype}/organisms")]
+        public async Task<string> GetOrganisms(string apikey, double version, string returntype)
         {
             try
             {
@@ -84,9 +84,112 @@ namespace OpenLDR.Dashboard.API.Controllers
                 {
                     if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
                     {
-                        if (!string.IsNullOrEmpty(apikey) && !string.IsNullOrEmpty(ApiKey) && apikey.Length == 32 && ApiKey == apikey)
+                        if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
                         {
-                            return await Task.FromResult<string>("Get susceptibility data");
+                            var list = Organism.All(ConnectionString);
+                            return await list.ToReturnType(returntype);
+                        }
+                        else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
+                    }
+                    else return await Core.OutputText("Supported return types are json and xml only.");
+                }
+                else return await Core.OutputText("Version not yet implemented");
+            }
+            catch (Exception ex) { return await Core.ToReturnType(new Response("Failed", ex.Message), "json"); }
+        }
+
+        //Example = https://[Domain]:[Port]/api/openldr/globalhealth/e98389ca62d99875ba7a4e0f2929960b/v1/json/drugs
+        [HttpGet("{apikey}/v{version}/{returntype}/drugs")]
+        public async Task<string> GetDrugs(string apikey, double version, string returntype)
+        {
+            try
+            {
+                if (version.Equals(ApiVersion))
+                {
+                    if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
+                    {
+                        if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
+                        {
+                            var list = Drug.All(ConnectionString);
+                            return await list.ToReturnType(returntype);
+                        }
+                        else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
+                    }
+                    else return await Core.OutputText("Supported return types are json and xml only.");
+                }
+                else return await Core.OutputText("Version not yet implemented");
+            }
+            catch (Exception ex) { return await Core.ToReturnType(new Response("Failed", ex.Message), "json"); }
+        }
+
+        //Example = https://[Domain]:[Port]/api/openldr/globalhealth/e98389ca62d99875ba7a4e0f2929960b/v1/json/turnaroundtime/2020-01-01/2020-02-01
+        [HttpGet("{apikey}/v{version}/{returntype}/turnaroundtime/{startDate}/{endDate}")]
+        public async Task<string> GetTurnAroundTime(string apikey, double version, string returntype, string startDate, string endDate)
+        {
+            try
+            {
+                if (version.Equals(ApiVersion))
+                {
+                    if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
+                    {
+                        if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
+                        {
+                            return await Core.ToReturnType(new Response("Successful", "Turn Around Time"), returntype);
+                        }
+                        else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
+                    }
+                    else return await Core.OutputText("Supported return types are json and xml only.");
+                }
+                else return await Core.OutputText("Version not yet implemented");
+            }
+            catch (Exception ex) { return await Core.ToReturnType(new Response("Failed", ex.Message), "json"); }
+        }
+
+        //Example = https://[Domain]:[Port]/api/openldr/globalhealth/e98389ca62d99875ba7a4e0f2929960b/v1/json/request_breakdown/2020-01-01/2020-02-01
+        [HttpGet("{apikey}/v{version}/{returntype}/request_breakdown/{startDate}/{endDate}")]
+        public async Task<string> GetRequestBreakdown(string apikey, double version, string returntype, string startDate, string endDate)
+        {
+            try
+            {
+                if (version.Equals(ApiVersion))
+                {
+                    if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
+                    {
+                        if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
+                        {
+                            return await Core.ToReturnType(new Response("Successful", "Request Breakdown"), returntype);
+                        }
+                        else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
+                    }
+                    else return await Core.OutputText("Supported return types are json and xml only.");
+                }
+                else return await Core.OutputText("Version not yet implemented");
+            }
+            catch (Exception ex) { return await Core.ToReturnType(new Response("Failed", ex.Message), "json"); }
+        }
+
+
+        //Example = https://[Domain]:[Port]/api/openldr/globalhealth/e98389ca62d99875ba7a4e0f2929960b/v1/json/susceptability/2020-01-01/2020-02-01?surveillenceCode=DST01&classIn=Resistant~Sensitive~Intermediate&organismNotIn=~@2x1 @2x2~@mix1 @mix2 @dbt3&drugnotIn=ancomycin&zone=eastern&zone=western
+        [HttpGet("{apikey}/v{version}/{returntype}/susceptability/{startDate}/{endDate}")]
+        public async Task<string> GetSusceptability(string apikey, double version, string returntype,string startDate, string endDate, 
+            [FromQuery] string surveillenceCode = "DST01", [FromQuery] string classIn = "Resistant~Sensitive~Intermediate", [FromQuery] string organismNotIn = "", [FromQuery] string drugsNotIn = "",
+            [FromQuery] string[] zone = null, [FromQuery] string[] region = null, [FromQuery] string[] facility = null)
+        {
+            try
+            {
+                if (version.Equals(ApiVersion))
+                {
+                    if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
+                    {
+                        if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
+                        {
+                            if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
+                            {
+                                var list = Susceptability.All(startDate, endDate, ConnectionString, surveillenceCode, 
+                                    classIn, organismNotIn, drugsNotIn, zone, region, facility);
+                                return await list.ToReturnType(returntype);
+                            }
+                            else return await Core.ToReturnType(new Response("Failed", "Invalid Start Date/End Date"), returntype);
                         }
                         else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
                     }

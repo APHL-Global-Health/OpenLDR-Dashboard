@@ -215,5 +215,13 @@ namespace OpenLDR.Dashboard.API
             return null;
         }
         #endregion
+
+        #region ToSqlJoin
+        public static string ToSqlJoin(this Array list, string separator)
+        {
+            if (list.Length == 0) return "''";
+            return String.Join(separator, list);
+        }
+        #endregion
     }
 }

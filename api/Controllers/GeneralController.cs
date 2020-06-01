@@ -73,7 +73,7 @@ namespace OpenLDR.Dashboard.API.Controllers
             return Core.OutputText("General API version " + ApiVersion).Result;
         }
 
-        //Example = https://[Domain]:[Port]/api/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/viralload
+        //Example = https://[Domain]:[Port]/api/openldr/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/viralload
         [HttpGet("{apikey}/v{version}/{returntype}/viralload")]
         public async Task<string> GetViralLoad(string apikey, double version, string returntype)
         {
@@ -83,7 +83,7 @@ namespace OpenLDR.Dashboard.API.Controllers
                 {
                     if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
                     {
-                        if (!string.IsNullOrEmpty(apikey) && !string.IsNullOrEmpty(ApiKey) && apikey.Length == 32 && ApiKey == apikey)
+                        if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
                         {
                             return await Task.FromResult<string>("Get viralload data");
                         }
@@ -96,7 +96,7 @@ namespace OpenLDR.Dashboard.API.Controllers
             catch (Exception ex) { return await Core.ToReturnType(new Response("Failed", ex.Message), "json"); }
         }
 
-        //Example = https://[Domain]:[Port]/api/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/eid
+        //Example = https://[Domain]:[Port]/api/openldr/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/eid
         [HttpGet("{apikey}/v{version}/{returntype}/eid")]
         public async Task<string> GetEID(string apikey, double version, string returntype)
         {
@@ -106,7 +106,7 @@ namespace OpenLDR.Dashboard.API.Controllers
                 {
                     if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
                     {
-                        if (!string.IsNullOrEmpty(apikey) && !string.IsNullOrEmpty(ApiKey) && apikey.Length == 32 && ApiKey == apikey)
+                        if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
                         {
                             return await Task.FromResult<string>("Get eid data");
                         }
@@ -119,7 +119,7 @@ namespace OpenLDR.Dashboard.API.Controllers
             catch (Exception ex) { return await Core.ToReturnType(new Response("Failed", ex.Message), "json"); }
         }
 
-        //Example = https://[Domain]:[Port]/api/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/transmission/2020/1
+        //Example = https://[Domain]:[Port]/api/openldr/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/transmission/2020/1
         [HttpGet("{apikey}/v{version}/{returntype}/transmission/{year}/{month}")]
         public async Task<string> GetTransmission(string apikey, double version, string returntype, int year, int month)
         {
@@ -129,7 +129,7 @@ namespace OpenLDR.Dashboard.API.Controllers
                 {
                     if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
                     {
-                        if (!string.IsNullOrEmpty(apikey) && !string.IsNullOrEmpty(ApiKey) && apikey.Length == 32 && ApiKey == apikey)
+                        if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
                         {
                             if (year > 2010)
                             {

@@ -2,6 +2,7 @@
 var apikey = "e98389ca62d99875ba7a4e0f2929960b";
 var dash_swiper = null;
 var dash_swiper_other = null;
+var surveillance_range_datepicker = null;
 
 document.addEventListener('click', function(e) {
 	var el = e.target;
@@ -20,7 +21,8 @@ document.addEventListener('click', function(e) {
 $(document).on("click", ".select--generic li", function() {
 
 	if($(this).parent().hasClass('Disabled')) { /* Do Nothing*/ }
-	else if($(this).parent().hasClass('Manual')) {					
+	else if($(this).parent().hasClass('Manual')) {		
+		Selection({"Item":$(this), "Selection":"Manual"});
 		//app.signals.emit('onSelection', {"Item":$(this), "Selection":"Manual"}, app);
 	}
 	else
@@ -34,6 +36,7 @@ $(document).on("click", ".select--generic li", function() {
 		else {
 			$(this).attr('data-selected','true').siblings().removeAttr('data-selected');
 			$(this).parent().removeClass('is-open'); 
+			Selection({"Item":$(this), "Selection":"Auto"});
 			//app.signals.emit('onSelection', {"Item":$(this), "Selection":"Auto"}, app);
 		}
 	}
@@ -42,7 +45,8 @@ $(document).on("click", ".select--generic li", function() {
 $(document).on("click", ".select--editable li", function() {
 	if($(this).parent().hasClass('Disabled')) { /* Do Nothing*/ }
 	else if($(this).parent().hasClass('Manual')) { 
-		app.signals.emit('onSelection', {"Item":$(this), "Selection":"Manual"}, app);
+		Selection({"Item":$(this), "Selection":"Manual"});
+		//app.signals.emit('onSelection', {"Item":$(this), "Selection":"Manual"}, app);
 	}
 	else
 	{
@@ -55,7 +59,8 @@ $(document).on("click", ".select--editable li", function() {
 	  } else {
 		$(this).parent().find('input').val($(this).html());
 		$(this).parent().removeClass('is-open'); 
-		app.signals.emit('onSelection', {"Item":$(this), "Selection":"Auto"}, app);				
+		Selection({"Item":$(this), "Selection":"Auto"});
+		//app.signals.emit('onSelection', {"Item":$(this), "Selection":"Auto"}, app);				
 	  }
 	}
 });
@@ -161,6 +166,273 @@ $('#searchBtn-Transmission').click(function() {
 	}
 });
 
+$('#searchBtn-Surveillance').unbind( "click" );
+$('#searchBtn-Surveillance').click(function() { 
+	if(!$('#searchBtn-Surveillance').hasClass('Disabled')){
+		$('#searchBtn-Surveillance').addClass('Disabled');
+		
+		if(surveillance_range_datepicker.selectedDates.length == 2 /*&& filter_organism.trim().length > 0*/){
+			var sd = surveillance_range_datepicker.selectedDates[0];
+			var ed = surveillance_range_datepicker.selectedDates[1];
+			
+			var startDate = sd.getFullYear()+"-"+(sd.getMonth()+1)+"-"+sd.getDate();
+			var endDate   = ed.getFullYear()+"-"+(ed.getMonth()+1)+"-"+ed.getDate();
+			
+			fetchSurveillanceData(startDate, endDate);
+		}
+		else{
+			$('#searchBtn-Surveillance').removeClass('Disabled');
+			$('.Surveillance-Spinner').removeClass("FlexDisplay");
+		}
+	}
+});
+
+function rainbowStop(h) {
+	let f = (n, k = (n + h * 12) % 12) => 0.5 - 0.5 * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+	let rgb2hex = (r, g, b) => "#" + [r, g, b].map(x => Math.round(x * 255).toString(16).padStart(2, 0)).join("");
+	let hex = rgb2hex(f(0), f(8), f(4));
+	
+	var c= hex.substring(1).split('');
+	if(c.length== 3){ c= [c[0], c[0], c[1], c[1], c[2], c[2]]; }
+	c= '0x'+c.join('');
+	return { r:(c>>16)&255, g:(c>>8)&255, b:c&255 };
+}
+
+function generateChartOptions(options){
+
+	if(options.chartType == "line"){
+		return {
+			type: options.chartType,
+			data: {
+				labels: options.labels,
+				datasets: options.datasets
+			},
+			options: {
+				responsive:true,
+				maintainAspectRatio: false,
+				title: {
+					text: options.title
+				},
+				legend: {
+					display: false,
+					labels: {
+						fontColor: 'rgb(255, 99, 132)'
+					}
+				},
+				scales: {
+					xAxes: [{
+						type: 'time',
+						time: {
+							unit: 'month',
+							unitStepSize: 1,
+							tooltipFormat: 'MMM YYYY'
+						},
+						scaleLabel: {
+							display: false,
+							labelString: options.xAxesLabel
+						},
+						display: true,
+						gridLines: {
+							display: false,
+							drawBorder: false
+						}
+					}],
+					yAxes: [{
+						scaleLabel: {
+							display: false,
+							labelString: options.yAxesLabel
+						},
+						display: true,
+						gridLines: {
+							display: true,
+							drawBorder: false
+						}
+					}]
+				},
+			}
+		};
+	}
+	else if(options.chartType == "bubble"){
+		return {
+			type: options.chartType,
+			data: {
+				labels: options.title,
+				datasets: options.datasets
+			},
+			options: {
+				responsive:true,
+				maintainAspectRatio: false,
+				title: {
+					text: options.title
+				},
+				legend: {
+					display: false,
+					labels: {
+						fontColor: 'rgb(255, 99, 132)'
+					}
+				},
+				layout: {
+					padding: {
+						left: 32,
+						top: 32,
+						right:32,
+						bottom:32
+					}
+				},
+				tooltips: {
+					callbacks: {
+						label: function(t, d) {
+							var e = d.datasets[t.datasetIndex].data[0];								
+							return e.y + ': ('+e.x+" : "+(e.r*5).toFixed(1)+')';
+						}
+					}
+				},
+				scales: {
+					xAxes: [{ 
+						scaleLabel: {
+							display: false,
+							labelString: options.xAxesLabel
+						},
+						display: true,
+						gridLines: {
+							display: true,
+							drawBorder: true
+						},
+						type: 'category',
+						labels: options.labels.X,
+						ticks: {
+							autoSkip: false,
+							maxRotation: 90,
+							minRotation: 90,
+							//fontSize: 10
+							padding: 20
+						}
+						/*ticks: {
+							callback: function(value, index, values) {
+							  return value;
+							}
+						}*/
+					}],
+					yAxes: [{ 
+						scaleLabel: {
+							display: false,
+							labelString: options.yAxesLabel
+						},
+						display: true,
+						gridLines: {
+							display: true,
+							drawBorder: true
+						},
+						type: 'category',
+						labels: options.labels.Y,
+						ticks: {
+							//fontSize: 10
+							padding: 20
+						}
+					}]						
+				}
+			}
+		};
+	}
+	else if(options.chartType == "bar"){
+		return {
+			type: options.chartType,
+			data: {
+				labels: options.labels,
+				datasets: options.datasets
+			},
+			options: {
+				responsive:true,
+				maintainAspectRatio: false,
+				title: {
+					text: options.title
+				},
+				legend: {
+					display: false,
+					labels: {
+						fontColor: 'rgb(255, 99, 132)'
+					}
+				},
+				scales: {
+					xAxes: [{
+						scaleLabel: {
+							display: false,
+							labelString: options.xAxesLabel
+						},
+						display: true,
+						gridLines: {
+							display: false,
+							drawBorder: false
+						}
+					}],
+					yAxes: [{
+						scaleLabel: {
+							display: false,
+							labelString: options.yAxesLabel
+						},
+						display: true,
+						gridLines: {
+							display: true,
+							drawBorder: false
+						}
+					}]
+				},
+			}
+		};
+	}
+	return {};
+}
+
+function groupBy(list, keyGetter) {
+	const map = new Map();
+	list.forEach((item) => {
+		 const key = keyGetter(item);
+		 const collection = map.get(key);
+		 if (!collection) {
+			 map.set(key, [item]);
+		 } else {
+			 collection.push(item);
+		 }
+	});
+	return map;
+}
+
+function randomColor(){
+	return {
+		r:Math.floor(Math.random() * 255),
+		g:Math.floor(Math.random() * 255),
+		b:Math.floor(Math.random() * 255)
+	}
+}
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function GColor(r,g,b) {
+	r = (typeof r === 'undefined')?0:r;
+	g = (typeof g === 'undefined')?0:g;
+	b = (typeof b === 'undefined')?0:b;
+	return {r:r, g:g, b:b};
+}
+
+function createColorRange(c1, c2) {
+	var colorList = [], tmpColor;
+	for (var i=0; i<255; i++) {
+		tmpColor = new GColor();
+		tmpColor.r = c1.r + ((i*(c2.r-c1.r))/255);
+		tmpColor.g = c1.g + ((i*(c2.g-c1.g))/255);
+		tmpColor.b = c1.b + ((i*(c2.b-c1.b))/255);
+		colorList.push(tmpColor);
+	}
+	return colorList;
+}
+
 function create_custom_dropdowns() {
   $('select').each(function(i, select) {
 	if (!$(this).next().hasClass('select-dropdown')) {
@@ -180,7 +452,9 @@ function create_custom_dropdowns() {
 function Selection(args){
 	if(args.Selection == "Auto"){ 
 		if(args.Item.parent().hasClass('filter_section')){
-			//loadChart();
+			var value = args.Item.data('value'); 
+			if(value == 'susceptability')$(".Selection.filter_class").parent().addClass('FlexDisplay').addClass('Menu');
+			else $(".Selection.filter_class").parent().removeClass('FlexDisplay').removeClass('Menu');
 		}
 	}
 }
@@ -592,6 +866,168 @@ function createTransmisionReport(data, year, month, output, systemsWithOtherTest
 	dash_swiper_other = new Swiper('.swiper-container-OtherTransmission');
 }
 
+function fetchSurveillanceData(startDate, endDate){
+	$('.Surveillance-Container').removeClass("FlexDisplay");
+	$('.Surveillance-Container').css({'height':'0px'});
+	$('.Surveillance-Spinner').addClass("FlexDisplay");
+	$("#surveillance_chart_canvas").parent().html('<canvas id="surveillance_chart_canvas" style=""></canvas>');
+
+	var filter_class = $(".Selection.filter_class").find("li[data-selected=true]").attr('data-value');
+	var filter_section = $(".Selection.filter_section").find("li[data-selected=true]").attr('data-value');
+	
+	
+	var timeout = 1000*60*5; //Time out after 5 minutes cause way too long
+	var port = 44325;
+	var protocol = 'https';
+	var domain = 'localhost';
+	var url = protocol+'://'+domain+':'+port+'/api/openldr/globalhealth/'+apikey+'/v1/json/'+filter_section+'/'+startDate+'/'+endDate;
+
+	fetch(url, {},timeout)
+	.then((response) => response.json())
+	.then((data) => {
+		if(data.length > 0){
+			if(filter_section == "turnaroundtime"){
+				
+			}
+			else if(filter_section == "request_breakdown"){
+				
+			}
+			else if(filter_section == "susceptability"){
+				var Organisms = data.reduce(function(obj, { Organism }, index) {
+					if(!obj.includes(Organism))obj.push(Organism);
+				  return obj;
+				}, []);
+				
+				var options = {
+					StartDate:startDate,
+					EndDate:endDate,
+					ChartType:"bubble",
+					Organisms:Organisms,//["Klebsiella aerogenes","Klebsiella oxytoca","Klebsiella ozaenae","Klebsiella pneumoniae","Klebsiella species"],
+					Class:filter_class,			
+					SurveillenceCode:"DST01",
+					ClassIn:"Resistant~Sensitive~Intermediate",
+					OrganismNotIn:"",
+					DrugNotIn:"",
+					OrganismIn:""
+				};
+				
+				var groupedBy_organism 	= [];
+				var groupedBy_class = groupBy(data, g => g.Class);
+				
+				if(options.Class == "Resistant"){
+					var items = groupedBy_class.get("Resistant");
+					groupedBy_organism 	= groupBy(items, g => g.Organism);
+				}
+				else if(options.Class == "Sensitive"){
+					var items = groupedBy_class.get("Sensitive");
+					groupedBy_organism = groupBy(items, g => g.Organism);
+				}
+				else if(options.Class == "Intermediate"){
+					var items = groupedBy_class.get("Intermediate");
+					groupedBy_organism = groupBy(items, g => g.Organism);
+				}
+				
+				var labels = {
+					X:[],
+					Y:[]
+				};
+				
+				var datasets = [];
+				var colors = [];
+				
+				var red = new GColor(255, 0, 0);
+				var blue = new GColor(0, 0, 255);
+				var range = createColorRange(red, blue);
+				var pointer = 0;
+
+				options.Organisms.forEach((item) => {
+					var organism = groupedBy_organism.get(item);
+					if(organism != undefined && organism != null){
+						
+						var yName = item.toLowerCase();
+						if(yName.length > 1)yName = yName.charAt(0).toUpperCase() + yName.slice(1);
+						else yName = yName.charAt(0).toUpperCase();
+						
+						if(!labels.Y.includes(yName)){								
+							labels.Y.push(yName);
+						}
+										
+						organism.forEach((d) => {
+							var xName = d.Drug.toLowerCase();
+							if(xName.length > 1)xName = xName.charAt(0).toUpperCase() + xName.slice(1);
+							else xName = xName.charAt(0).toUpperCase();
+							
+							if(!labels.X.includes(xName)){
+								labels.X.push(xName);
+							}
+							
+							
+							
+							var color = colors[xName];
+							if(color == undefined || color == null){
+								var col = rainbowStop(pointer / Organisms.length);
+								color = {
+									r:col.r,
+									g:col.g,
+									b:col.b,
+									background:"rgba(" + col.r + "," + col.g + "," + col.b + ",0.8)",
+									border: "rgba(" + col.r + "," + col.g + "," + col.b + ",1)"
+								}
+								
+								colors[xName] = color;	
+								pointer++;						
+							}
+							
+							datasets.push({
+								label: xName,
+								backgroundColor: color.background,
+								borderColor: color.border,
+								data: [{
+									x: xName,
+									y: yName,
+									r: (d.Ratio*20),
+									t: d.TotalCount
+								}]
+							});
+						});
+					}				
+				});
+				
+				var config = generateChartOptions({
+					title: "Susceptibility",
+					xAxesLabel: "",
+					yAxesLabel: "",
+					chartType:options.ChartType,
+					labels:labels,
+					datasets:datasets
+				});
+				
+				$('.Surveillance-Container').css({'height':(Organisms.length*48)+'px'});
+				
+				var ctx = document.getElementById("surveillance_chart_canvas").getContext('2d');
+				var cht = new Chart(ctx, config);
+			
+			}
+			
+			$('#searchBtn-Surveillance').removeClass('Disabled');
+			$('.Surveillance-Spinner').removeClass("FlexDisplay");
+			$('.Surveillance-Container').addClass("FlexDisplay");
+			
+		}
+		else{
+			//TODO: Show dialog
+			console.log("No data");
+			$('#searchBtn-Surveillance').removeClass('Disabled');
+			$('.Surveillance-Spinner').removeClass("FlexDisplay");
+		}
+	})
+	.catch((error) => {
+		console.log(error);
+		$('#searchBtn-Surveillance').removeClass('Disabled');
+		$('.Surveillance-Spinner').removeClass("FlexDisplay");
+	});	
+}
+
 function fetchTransmissionData(year, month){
 	if(!$('#searchBtn-Transmission').hasClass('Disabled')){
 		$('.Transmission').html("");
@@ -642,6 +1078,38 @@ function fetchTransmissionData(year, month){
 	}
 }
 
+function fetchOrganisms(){
+	$('.Surveillance-Spinner').addClass("FlexDisplay");
+	
+	var timeout = 1000*60*5; //Time out after 5 minutes cause way too long
+	var port = 44325;
+	var protocol = 'https';
+	var domain = 'localhost';
+	var url = protocol+'://'+domain+':'+port+'/api/openldr/globalhealth/'+apikey+'/v1/json/organisms';
+
+	fetch(url, {},timeout)
+	.then((response) => response.json())
+	.then((data) => {
+		if(data.length > 0){
+			$(".filter_organism").html("<li data-selected='true' data-value=''>Organisms</li>");
+			data.forEach(function(organism){
+				$(".filter_organism").append("<li data-value='"+organism+"'>"+organism+"</li>");
+			});
+			
+			$('.Surveillance-Spinner').removeClass("FlexDisplay");
+		}
+		else{
+			//TODO: Show dialog
+			console.log("No data");
+			$('.Surveillance-Spinner').removeClass("FlexDisplay");
+		}
+	})
+	.catch((error) => {
+		console.log(error);
+		$('.Surveillance-Spinner').removeClass("FlexDisplay");
+	});	
+}
+
 function fetchData(){
 	var year = $(".Selection.year_transmission").find("li[data-selected=true]").attr('data-value');
 	var month = $(".Selection.month_transmission").find("li[data-selected=true]").attr('data-value');
@@ -655,18 +1123,33 @@ function fetchData(){
 		}
 		else console.error("Failed to parse month");
 	}
-	else console.error("Failed to parse year");		
+	else console.error("Failed to parse year");
+	
+	if(surveillance_range_datepicker.selectedDates.length == 2 /*&& filter_organism.trim().length > 0*/){
+		var sd = surveillance_range_datepicker.selectedDates[0];
+		var ed = surveillance_range_datepicker.selectedDates[1];
+		
+		var startDate = sd.getFullYear()+"-"+(sd.getMonth()+1)+"-"+sd.getDate();
+		var endDate   = ed.getFullYear()+"-"+(ed.getMonth()+1)+"-"+ed.getDate();
+		
+		fetchSurveillanceData(startDate, endDate);
+	}
 }
 
 function init(){
-	var dt_trasmission = new Date();
-	for(var i=dt_trasmission.getFullYear(); i>=2013; i--){
-		$(".year_transmission").append("<li "+(i==dt_trasmission.getFullYear() ? "data-selected='true'" : "")+" data-value='"+i+"'>"+i+"</li>");
+	var dt = new Date();
+	for(var i=dt.getFullYear(); i>=2013; i--){
+		$(".year_transmission").append("<li "+(i==dt.getFullYear() ? "data-selected='true'" : "")+" data-value='"+i+"'>"+i+"</li>");
 	}
 
 	for(var i=1; i<=12; i++){
-		$(".month_transmission").append("<li "+(i==dt_trasmission.getMonth()+1 ? "data-selected='true'" : "")+" data-value='"+i+"'>"+i+"</li>");
+		$(".month_transmission").append("<li "+(i==dt.getMonth()+1 ? "data-selected='true'" : "")+" data-value='"+i+"'>"+i+"</li>");
 	}
+	
+	var dateOptions = {language: 'en' ,dateFormat: 'yyyy-mm-dd' ,range:true ,multipleDatesSeparator:" - " ,toggleSelected: false  };
+	surveillance_range_datepicker = InitDatePicker($('.surveillance-datepicker-range'), dateOptions);
+	
+	surveillance_range_datepicker.selectDate([new Date(dt.getFullYear(), dt.getMonth(), 1), new Date(dt.getFullYear(), dt.getMonth() + 1, 0)]);
 	
 	fetchData();
 }
