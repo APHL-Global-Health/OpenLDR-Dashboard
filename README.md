@@ -12,6 +12,9 @@
 #### Data
 ![](https://github.com/APHL-Global-Health/OpenLDR-Dashboard/blob/master/assets/images/data_tables.jpg)
 
+#### Susceptability
+![](https://github.com/APHL-Global-Health/OpenLDR-Dashboard/blob/master/assets/images/data_susceptability.jpg)
+
 ### Project Structure
     .
 	├── api
