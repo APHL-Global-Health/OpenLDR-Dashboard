@@ -33,7 +33,7 @@ namespace OpenLDR.Dashboard.API.Controllers
             get
             {
 
-                var apiConfiguration = Configuration.GetSection("Api");
+                var apiConfiguration = ApiConfiguration;
                 if (apiConfiguration != null) return apiConfiguration.GetSection("ReturnTypes").Get<string[]>();
                 else return null;
             }
@@ -43,7 +43,7 @@ namespace OpenLDR.Dashboard.API.Controllers
         {
             get
             {
-                var apiConfiguration = Configuration.GetSection("Api");
+                var apiConfiguration = ApiConfiguration;
                 if (apiConfiguration != null) return apiConfiguration.GetValue<string>("Key");
                 else return null;
             }
@@ -53,9 +53,17 @@ namespace OpenLDR.Dashboard.API.Controllers
         {
             get
             {
-                var apiConfiguration = Configuration.GetSection("Api");
+                var apiConfiguration = ApiConfiguration;
                 if (apiConfiguration != null) return apiConfiguration.GetValue<double>("Version");
                 else return 1;
+            }
+        }
+
+        public IConfigurationSection ApiConfiguration
+        {
+            get
+            {
+                return Configuration.GetSection("Api");
             }
         }
         #endregion
@@ -86,7 +94,7 @@ namespace OpenLDR.Dashboard.API.Controllers
                     {
                         if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
                         {
-                            var list = Organism.All(ConnectionString);
+                            var list = Organism.All(ApiConfiguration, ConnectionString);
                             return await list.ToReturnType(returntype);
                         }
                         else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
@@ -110,7 +118,7 @@ namespace OpenLDR.Dashboard.API.Controllers
                     {
                         if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
                         {
-                            var list = Drug.All(ConnectionString);
+                            var list = Drug.All(ApiConfiguration, ConnectionString);
                             return await list.ToReturnType(returntype);
                         }
                         else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
@@ -185,7 +193,7 @@ namespace OpenLDR.Dashboard.API.Controllers
                         {
                             if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
                             {
-                                var list = Susceptability.All(startDate, endDate, ConnectionString, surveillenceCode, 
+                                var list = Susceptability.All(ApiConfiguration, startDate, endDate, ConnectionString, surveillenceCode, 
                                     classIn, organismNotIn, drugsNotIn, zone, region, facility);
                                 return await list.ToReturnType(returntype);
                             }

@@ -1,4 +1,6 @@
 ﻿#region Using
+using API.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using OpenLDR.Dashboard.API.Models;
 using OpenLDR.Dashboard.API.Utils;
@@ -221,6 +223,22 @@ namespace OpenLDR.Dashboard.API
         {
             if (list.Length == 0) return "''";
             return String.Join(separator, list);
+        }
+        #endregion
+
+        #region GetQueryScript
+        public static string GetQueryScript(IConfigurationSection configuration, string key)
+        {
+            if (!string.IsNullOrEmpty(key))
+            {
+                var queries = configuration.GetSection("Queries").Get<QueriesHelper[]>();
+                if (queries != null)
+                {
+                    var query = queries.SingleOrDefault(s => !string.IsNullOrEmpty(s.Key) && s.Key.Trim().ToLower() == key.Trim().ToLower());
+                    if (query != null) return query.ToSql();
+                }
+            }
+            return null;
         }
         #endregion
     }

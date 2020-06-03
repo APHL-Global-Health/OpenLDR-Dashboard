@@ -57,6 +57,14 @@ namespace OpenLDR.Dashboard.API.Controllers
                 else return 1;
             }
         }
+
+        public IConfigurationSection ApiConfiguration
+        {
+            get
+            {
+                return Configuration.GetSection("Api");
+            }
+        }
         #endregion
 
         #region Constructor
@@ -139,8 +147,8 @@ namespace OpenLDR.Dashboard.API.Controllers
                                     {
                                         var tests = new List<string>() { "HIVVL", "HIVPC", "EID" };
 
-                                        var otherTests = Transmission.All(tests, year, month, ConnectionString, true);
-                                        var OpenLDRTests = Transmission.All(tests, year, month, ConnectionString, false);
+                                        var otherTests = Transmission.All(ApiConfiguration, tests, year, month, ConnectionString, true);
+                                        var OpenLDRTests = Transmission.All(ApiConfiguration, tests, year, month, ConnectionString, false);
 
                                         var list = new List<Transmission>();
                                         list.AddRange(otherTests);
