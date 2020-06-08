@@ -4,3 +4,4 @@ packages/
 api/obj/
 api/bin/
 api/Properties/
+/.vs
