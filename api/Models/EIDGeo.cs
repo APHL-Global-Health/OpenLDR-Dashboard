@@ -56,7 +56,7 @@ namespace OpenLDR.Dashboard.API.Models
 		{
 			EIDGeo obj = null;
 
-			var query = Core.GetQueryScript(configuration, "zambia_getEIDGeo");
+			var query = Core.GetQueryScript(configuration, "zambia_getEIDByGeography");
 			if (!string.IsNullOrEmpty(query))
 			{
 
