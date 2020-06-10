@@ -82,8 +82,8 @@ namespace OpenLDR.Dashboard.API.Controllers
         }
 
         //Example = https://[Domain]:[Port]/api/openldr/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/viralload
-        [HttpGet("{apikey}/v{version}/{returntype}/viralload")]
-        public async Task<string> GetViralLoad(string apikey, double version, string returntype)
+        [HttpGet("{apikey}/v{version}/{returntype}/viralload/{province}/{district}/{facility}/{stdate}/{edate}")]
+        public async Task<string> GetViralLoad(string apikey, double version, string returntype, string province, string district, string facility, DateTime stdate, DateTime edate)
         {
             try
             {
@@ -93,7 +93,8 @@ namespace OpenLDR.Dashboard.API.Controllers
                     {
                         if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
                         {
-                            return await Task.FromResult<string>("Get viralload data");
+                            
+                            return await ViralLoadGeo.All(ApiConfiguration, ConnectionString, province, district, facility, stdate, edate).ToReturnType(returntype);
                         }
                         else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
                     }
@@ -116,6 +117,7 @@ namespace OpenLDR.Dashboard.API.Controllers
                     {
                         if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
                         {
+
                             return await Task.FromResult<string>("Get eid data");
                         }
                         else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
@@ -170,6 +172,9 @@ namespace OpenLDR.Dashboard.API.Controllers
             }
             catch (Exception ex) { return await Core.ToReturnType(new Response("Failed", ex.Message), "json"); }
         }
+
+
+
         #endregion
     }
 }
