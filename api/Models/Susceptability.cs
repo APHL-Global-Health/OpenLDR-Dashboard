@@ -15,9 +15,8 @@ namespace OpenLDR.Dashboard.API
 		public string Organism { get; set; }
 		public string Drug { get; set; }
 		public string Class { get; set; }
-		public int ResultCount { get; set; }
 		public int TotalCount { get; set; }
-		public double Ratio { get; set; }
+		public int ResultCount { get; set; }
 		#endregion
 
 		#region Constructor
@@ -25,15 +24,14 @@ namespace OpenLDR.Dashboard.API
 		{
 		}
 
-		public Susceptability(string Organism, string Drug, string Class, int ResultCount, int TotalCount, double Ratio)
+		public Susceptability(string Organism, string Drug, string Class, int TotalCount, int ResultCount)
 			: this()
 		{
 			this.Organism = Organism;
 			this.Drug = Drug;
 			this.Class = Class;
-			this.ResultCount = ResultCount;
 			this.TotalCount = TotalCount;
-			this.Ratio = Ratio;
+			this.ResultCount = ResultCount;
 		}
 		#endregion
 
