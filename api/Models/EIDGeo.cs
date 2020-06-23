@@ -52,39 +52,53 @@ namespace OpenLDR.Dashboard.API.Models
 
 		#region Methods
 		#region All
-		public static EIDGeo All(IConfigurationSection configuration, string connectionString, string province, string district, string facility, DateTime stdate, DateTime edate)
+		public static EIDGeo All(IConfigurationSection configuration, string connectionString, string province, string district, string facility, DateTime? stdate, DateTime? edate)
 		{
 			EIDGeo obj = null;
-
-			var query = Core.GetQueryScript(configuration, "zambia_getEIDByGeography");
+			var query = Core.GetQueryScript(configuration, "general_getEIDByGeography");
 			if (!string.IsNullOrEmpty(query))
 			{
-
+				
 				var connection = new SqlConnection(connectionString);
 				connection.Open();
 
 				SqlCommand cmd = new SqlCommand(query, connection) { CommandTimeout = 0 };
-				cmd.Parameters.Add("@Province", SqlDbType.VarChar).Value = province;
-				cmd.Parameters.Add("@District", SqlDbType.VarChar).Value = district;
-				cmd.Parameters.Add("@Facility", SqlDbType.VarChar).Value = facility;
-				cmd.Parameters.Add("@StDate", SqlDbType.DateTime).Value = stdate;
-				cmd.Parameters.Add("@EDate", SqlDbType.DateTime).Value = edate;
+				if (province == null)
+					cmd.Parameters.Add("@Province", SqlDbType.VarChar).Value = DBNull.Value;
+				else cmd.Parameters.Add("@Province", SqlDbType.VarChar).Value = province;
+				if (district == null)
+					cmd.Parameters.Add("@District", SqlDbType.VarChar).Value = DBNull.Value;
+				else cmd.Parameters.Add("@District", SqlDbType.VarChar).Value = district;
+				if (facility == null)
+					cmd.Parameters.Add("@Facility", SqlDbType.VarChar).Value = DBNull.Value;
+				else cmd.Parameters.Add("@Facility", SqlDbType.VarChar).Value = facility;
+				if ((stdate == DateTime.MinValue) || (edate == DateTime.MinValue))
+				{
+					cmd.Parameters.Add("@StDate", SqlDbType.DateTime).Value = DBNull.Value;
+					cmd.Parameters.Add("@EDate", SqlDbType.DateTime).Value = DBNull.Value;
+				}
+				else
+				{
+					cmd.Parameters.Add("@StDate", SqlDbType.DateTime).Value = stdate;
+					cmd.Parameters.Add("@EDate", SqlDbType.DateTime).Value = edate;
+				}
 				SqlDataReader dataReader = cmd.ExecuteReader();
 
-				
+				while (dataReader.Read())
+				{
 					var Province = dataReader["Province"].ToString();
 					var District = dataReader["District"].ToString();
 					var Facility = dataReader["Facility"].ToString();
 					var Tests = dataReader.ToInt("Tests");
 					var Positive = dataReader.ToInt("Positive");
 					var Negative = dataReader.ToInt("Negative");
-					var PositivityRate = dataReader.ToInt("PositivityRate");
-					var AverageTAT = dataReader.ToInt("AverageTAT");
+					var PositivityRate = dataReader.ToDouble("PositivityRate");
+					var AverageTAT = dataReader.ToDouble("AverageTAT");
 					
 
 					obj = new EIDGeo(Province, District, Facility, Tests, Positive, Negative, PositivityRate, AverageTAT);
-				
 
+				}
 				dataReader.Close();
 				connection.Close();
 			}

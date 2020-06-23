@@ -82,12 +82,12 @@ namespace OpenLDR.Dashboard.API.Controllers
         }
 
         //Example = https://[Domain]:[Port]/api/openldr/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/viralload
-        [HttpGet("{apikey}/v{version}/{returntype}/viralload/{province}/{district}/{facility}/{stdate}/{edate}")]
-        public async Task<string> GetViralLoad(string apikey, double version, string returntype, string province, string district, string facility, DateTime stdate, DateTime edate)
+        [HttpGet("{apikey}/v{version}/{returntype}/viralload")]
+        public async Task<string> GetViralLoad(string apikey, double version, string returntype, [FromQuery] string province, [FromQuery] string district, [FromQuery] string facility, [FromQuery] DateTime stdate, [FromQuery] DateTime edate)
         {
             try
             {
-                if (version.Equals("v"+ApiVersion))
+                if (version.Equals(ApiVersion))
                 {
                     if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
                     {
@@ -107,7 +107,7 @@ namespace OpenLDR.Dashboard.API.Controllers
 
         //Example = https://[Domain]:[Port]/api/openldr/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/eid
         [HttpGet("{apikey}/v{version}/{returntype}/eid")]
-        public async Task<string> GetEID(string apikey, double version, string returntype)
+        public async Task<string> GetEID(string apikey, double version, string returntype, [FromQuery] string province, [FromQuery] string district, [FromQuery] string facility, [FromQuery] DateTime stdate, [FromQuery] DateTime edate)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace OpenLDR.Dashboard.API.Controllers
                         if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
                         {
 
-                            return await Task.FromResult<string>("Get eid data");
+                            return await EIDGeo.All(ApiConfiguration, ConnectionString, province, district, facility, stdate, edate).ToReturnType(returntype);
                         }
                         else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
                     }
