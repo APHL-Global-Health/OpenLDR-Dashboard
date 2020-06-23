@@ -4,4 +4,6 @@ packages/
 api/obj/
 api/bin/
 api/Properties/
+optimizer/obj/
+optimizer/bin/
 /.vs
