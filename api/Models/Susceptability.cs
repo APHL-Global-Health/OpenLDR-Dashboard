@@ -62,7 +62,7 @@ namespace OpenLDR.Dashboard.API
 						Drug = dataReader["Drug"].ToString(),
 						Class = dataReader["Class"].ToString(),
 						TotalCount = int.Parse(dataReader["TotalCount"].ToString()),
-						Ratio = double.Parse(dataReader["Ratio"].ToString())
+						//Ratio = double.Parse(dataReader["Ratio"].ToString())
 					});
 				}
 				connection.Close();
