@@ -29,6 +29,8 @@ namespace OpenLDR.Dashboard.API.Models
 
 		public double AverageTAT { get; set; }
 
+		public double TATWithin14 { get; set; }
+
 		public int lt01 { get; set; }
 
 		public int _1to4 { get; set; }
@@ -61,7 +63,7 @@ namespace OpenLDR.Dashboard.API.Models
 		{
 		}
 
-		public ViralLoadGeo(string Province, string District, string Facility, int Tests, int Suppressed, int Unsuppressed,int Undetectable, double SuppressionRate, double AverageTAT, int lt01, int _1to4, int _5to9, int _10to14, int _15to19, int _20to24, int _25to29, int _30to34, int _35to39, int _40to44, int _45to49, int _50plus)
+		public ViralLoadGeo(string Province, string District, string Facility, int Tests, int Suppressed, int Unsuppressed,int Undetectable, double SuppressionRate, double AverageTAT, double TATWithin14, int lt01, int _1to4, int _5to9, int _10to14, int _15to19, int _20to24, int _25to29, int _30to34, int _35to39, int _40to44, int _45to49, int _50plus)
 			: this()
 		{
 			this.Province = Province;
@@ -73,6 +75,7 @@ namespace OpenLDR.Dashboard.API.Models
 			this.Undetectable = Undetectable;
 			this.SuppressionRate = SuppressionRate;
 			this.AverageTAT = AverageTAT;
+			this.TATWithin14 = TATWithin14;
 			this.lt01 = lt01;
 			this._1to4 = _1to4;
 			this._5to9 = _5to9;
@@ -135,6 +138,7 @@ namespace OpenLDR.Dashboard.API.Models
 					var Undetectable = dataReader.ToInt("Undetectable");
 					var SuppressionRate = dataReader.ToDouble("SuppressionRate");
 					var AverageTAT = dataReader.ToDouble("AverageTAT");
+					var TATWithin14 = dataReader.ToDouble("TATWithin14");
 					var lt01 = dataReader.ToInt("lt01");
 					var _1to4 = dataReader.ToInt("1to4");
 					var _5to9 = dataReader.ToInt("5to9");
@@ -149,7 +153,7 @@ namespace OpenLDR.Dashboard.API.Models
 					var _50plus = dataReader.ToInt("50plus");
 
 
-					obj = new ViralLoadGeo(Province, District, Facility, Tests, Suppressed, Unsuppressed, Undetectable, SuppressionRate, AverageTAT,lt01,_1to4,_5to9,_10to14,_15to19,_20to24,_25to29,_30to34,_35to39,_40to44,_45to49,_50plus);
+					obj = new ViralLoadGeo(Province, District, Facility, Tests, Suppressed, Unsuppressed, Undetectable, SuppressionRate, AverageTAT, TATWithin14,lt01,_1to4,_5to9,_10to14,_15to19,_20to24,_25to29,_30to34,_35to39,_40to44,_45to49,_50plus);
 				}
 
 				dataReader.Close();
