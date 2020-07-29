@@ -1,0 +1,96 @@
+extends layout/base
+block content-data
+ .content-wrapper
+  .content-header
+   .container-fluid
+    .row.mb-2
+     .col-6.col-md-6.col-sm-12.col-xs-12
+      h1.m-0.text-dark Viral Load Test Statistics
+     .col-6.col-md-6.col-sm-12.col-xs-12
+      span.text-center.float-right
+       i [<b>Reporting Start Date</b> : #{ (typeof start !== 'undefined')? start.toString() : 'Begining of Last Month' }] &nbsp;&nbsp;&nbsp;&nbsp; [<b>Reporting End Date</b> : #{ (typeof end !== 'undefined')? end.toString() : 'End of Last Month' }]
+  .content 
+    .row
+     .col-12.col-md-12.col-sm-12
+      .card
+       .card-body
+        form(action="/", method="post").form-inline
+         .form-group.form-group-lg.col-12.col-md-3.col-sm-6
+          //select(name="province" id="province" ).w-100.form-control
+           - var plist = Array.from(new Set(obj2.map(item=>(item.Province))))
+           option(value="" disabled selected) Select Province
+           each val in plist
+            option(value=val) #{ val }
+          input(type="text" name="province" id="province" placeholder="Select Province").w-100.form-control
+         .form-group.form-group-lg.col-12.col-md-3.col-sm-6
+          input(type="text" name="district" id="district" placeholder="Select District").w-100.form-control
+           
+         .form-group.form-group-lg.col-12.col-md-3.col-sm-6
+          input(type="text", name="facility" placeholder="Select Facility").w-100.form-control
+         .form-group.form-group-lg.col-6.col-md-2.col-sm-3
+          input(type="text", name="daterange" value="").w-100.form-control
+         .form-group.form-group-lg.col-6.col-md-1.col-sm-3
+          input(type="submit", name="submit", value="Get Data").w-100.form-control
+    .row
+     .col-12.col-sm-6.col-md-3
+      .info-box.mb-3
+       span.info-box-icon.bg-info.elevaion-1
+        i.fas.fa-vials
+       .info-box-content
+        span.info-box-text HIV Viral Load Tests
+        span.info-box-number #{obj.Tests.toLocaleString()}
+     .col-12.col-sm-6.col-md-3
+      .info-box.mb-3
+       span.info-box-icon.bg-success.elevaion-1
+        i.fas.fa-adjust
+       .info-box-content
+        span.info-box-text Suppressed
+        span.info-box-number #{obj.Suppressed.toLocaleString()}
+     .col-12.col-sm-6.col-md-3
+      .info-box.mb-3
+       span.info-box-icon.bg-danger.elevaion-1
+        i.fas.fa-adjust
+       .info-box-content
+        span.info-box-text UnSuppressed
+        span.info-box-number #{obj.Unsuppressed.toLocaleString()}
+     .col-12.col-sm-6.col-md-3
+      .info-box.mb-3
+       span.info-box-icon.bg-warning.elevaion-1
+        i.fas.fa-diagnoses
+       .info-box-content
+        span.info-box-text U=U/Undetectable
+        span.info-box-number #{obj.Undetectable.toLocaleString()}
+    .row
+     div(style="display:inline-block").col-xl-3.col-lg-3.col-md-3.col-sm-12.col-xs-12
+      .card
+       .card-header
+        h4 Suppression Statistics
+       .card-body
+        .text-center
+         input(type=text, value=(100*obj.SuppressionRate).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.SuppressionRate, data-fgColor="#009933", data-readOnly="true", data-width="100%", data-heght="100%").knob
+         .knob-label 
+          b Suppression (%)
+        .text-center
+         input(type=text, value=(obj.Undetectable*100/obj.Tests).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.SuppressionRate, data-fgColor="#FFA500", data-readOnly="true", data-width="100%", data-heght="100%").knob
+         .knob-label 
+          b U=U/Undetectable (%)
+     div(style="display:inline-block").col-xl-6.col-lg-6.col-md-6.col-sm-12.col-xs-12
+      .card
+       .card-header
+        h4 Tests By Age Group
+       .card-body
+        .chart
+         canvas(id="agbarchart",style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;")
+     div(style="display:inline-block").col-xl-3.col-lg-3.col-md-3.col-sm-12.col-xs-12
+      .card
+       .card-header
+        h4 Turn Around Time Statistics
+       .card-body
+        .text-center
+         input(type=text, value=(100*obj.TATWithin14).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.TATWithin14, data-fgColor=(obj.TATWithin14>=0.8)? "#009933": (obj.TATWithin14>=0.5)? "#FFA500" :"#ff3333", data-readOnly="true", data-width="100%", data-heght="100%").knob
+         .knob-label 
+          b Samples Tested within 14 days (%)
+        .text-center
+         input(type=text, value=(obj.AverageTAT).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=obj.AverageTAT, data-fgColor=(obj.AverageTAT>14)? "#ff3333" :"#009933", data-readOnly="true", data-width="100%", data-heght="100%").knob
+         .knob-label 
+          b Average Turn Around Time (days)
