@@ -36,15 +36,109 @@ $(document).ready(function() {
 
     
 
-});
+//});
 
-$(document).ready(function () {
-  $('province').change(function (e) {
-      var value = $('province').val();
-      dlist = Array.from(new Set(obj2.filter(function(e){return e.Province==value}).map(item=>item.District)));
-      console.log(value);
+//$(document).ready(function () {
+  $('select[name="province"]').change(function (e) {
+    
+    for(i=0; i<$('#district option').length;i++){
+    $('#district option')[i].style.display="none";
+    }
+     var selectedClass = $(this).val();
+     document.getElementById('district').selectedIndex=0;
+      for(i=0; i<$("."+selectedClass).length;i++)
+       $("."+selectedClass)[i].style.display="block";
+       
   });
 
+  $('select[name="district"]').change(function (e) {
+    
+    if(document.getElementById('province').selectedIndex==0){
+    alert("Province Not Specified");
+    document.getElementById('district').selectedIndex=0;
+    }
+    else{
+    for(j=0; j<$('#facility option').length;j++)
+    $('#facility option')[j].style.display="none";
+     var selectClass = $(this).val();
+     document.getElementById('facility').selectedIndex=0;
+     for(i=0; i<$("."+selectClass).length;i++)
+       $("."+selectClass)[i].style.display="block";
+    
+    }
+});
+
+$('select[name="facility"]').click(function (e) {
+    
+  if(document.getElementById('province').selectedIndex==0 || document.getElementById('district').selectedIndex==0){
+    alert("Either Province or District Not Specified");
+  document.getElementById('facility').selectedIndex=0;
+  }
+  
+});
+  
+
+
+function renderChart(x,y,data_m){
+  var ctx = document.getElementById('agbarchart').getContext('2d');
+  var barchart = new Chart(ctx,
+                          {
+                            type: 'horizontalBar',
+                            data: {
+                              labels: y,
+                              datasets: [{
+                                label: 'Male',
+                                data: data_m,
+                                backgroundColor: '#3e95cd'
+                              },{
+                                label: 'Female',
+                                data: data_f,
+                                backgroundColor: '#8e5ea2'
+                              },{
+                                label: 'Indeterminate',
+                                data: data_i,
+                                backgroundColor: '#3cba9f'
+                              },{
+                                label: 'Unknown',
+                                data: data_u,
+                                backgroundColor: '#e8c3b9'
+                              },{
+                                label: 'Missing',
+                                data: data_x,
+                                backgroundColor: '#c45850'
+                              }]
+                            },
+                            options: {
+                              tooltips: {
+
+                              },
+                              scales:{
+                                xAxes: [
+                                  {
+                                    stacked: true,
+                                    scaleLabel: {
+                                      display: true,
+                                      labelString: 'Number of VL Tests'
+                                    }
+                                  }
+                                ],
+                                yAxes: [
+                                  {
+                                    stacked: true,
+                                    scaleLabel: {
+                                      display: true,
+                                      labelString: 'Age Groups'
+                                    }
+                                  }
+                                ]
+                              },
+                              responsive: true,
+                              legend: {position: 'bottom'}
+                            }
+                          });
+}
+
+renderChart(data,labels,data_m);
 
   $('.knob').knob({
     /*change : function (value) {

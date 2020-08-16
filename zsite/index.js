@@ -35,19 +35,10 @@ app.use(bodyParser.urlencoded({extended: true}));
  */
 
 app.get("/", (req, res, next) => {
-   request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralload', function(error,response,body) {
-      if (!error && response.statusCode == 200) {
-        var o = JSON.parse(body);
-        res.render('index', {title: 'LIS Dashboard',obj: o});
-      }
-  });/*
-  var o;
-  var levels;
   async.parallel([
     function(callback) {
       request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralload', function(error, response, body) {
         if (!error && response.statusCode == 200) {
-          o = JSON.parse(body);
           return callback(null, response);
         }
         return callback(error || new Error('Response non-200'));
@@ -56,7 +47,6 @@ app.get("/", (req, res, next) => {
     function(callback) {
       request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
         if (!error && response.statusCode == 200) {
-          levels = JSON.parse(body);
           return callback(null, response);
         }
         return callback(error || new Error('Response non-200'));
@@ -68,23 +58,46 @@ app.get("/", (req, res, next) => {
     if (err) {
       // Handle or return error
     }
-    
-    res.render('index', {title: 'LIS Dashboard',obj: o,obj2 : levels});
-  })*/
+    res.render('index', {title: 'LIS Dashboard',obj: JSON.parse(results[0].body),obj2 : JSON.parse(results[1].body)});
+  })
 }); 
 
   app.post('/',function(req,res){
     var dates = req.body.daterange.split(" - ");
     var stdate=dates[0];
     var edate=dates[1];
-    var qry="?Province="+req.body.province+"&District="+req.body.district+"&StDate="+stdate+"&EDate="+edate;
+    var province = req.body.province;
+    var district = req.body.district;
+    var facility =req.body.facility;
+    var qry="?Province="+province+"&District="+district+"&Facility="+facility+"&StDate="+stdate+"&EDate="+edate;
     console.log(qry);
-    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralload'+qry, function(error,response,body) {
+    
+ async.parallel([
+  function(callback) {
+    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralload'+qry, function(error, response, body) {
       if (!error && response.statusCode == 200) {
-        var o = JSON.parse(body);
-        res.render('index', {title: 'LIS Dashboard',obj: o, start: stdate, end : edate});
+        return callback(null, response);
       }
- });  
+      return callback(error || new Error('Response non-200'));
+    })
+  },
+  function(callback) {
+    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+      if (!error && response.statusCode == 200) {
+        return callback(null, response);
+      }
+      return callback(error || new Error('Response non-200'));
+    })
+  }
+],
+// optional callback
+function(err, results) {
+  if (err) {
+    // Handle or return error
+  }
+  
+  res.render('index', {title: 'LIS Dashboard',obj: JSON.parse(results[0].body),obj2 : JSON.parse(results[1].body), province: province, district: district, facility: facility, start: stdate, end : edate});
+}) 
  
     
 });  
