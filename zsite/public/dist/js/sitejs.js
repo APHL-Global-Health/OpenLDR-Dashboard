@@ -60,6 +60,8 @@ $(document).ready(function() {
     else{
     for(j=0; j<$('#facility option').length;j++)
     $('#facility option')[j].style.display="none";
+
+    
      var selectClass = $(this).val();
      document.getElementById('facility').selectedIndex=0;
      for(i=0; i<$("."+selectClass).length;i++)

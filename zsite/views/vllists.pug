@@ -1,0 +1,48 @@
+extends layout/base
+block content-data
+ .content-wrapper
+  .content-header
+   .container-fluid
+    .row.mb-2
+     .col-6.col-md-6.col-sm-12.col-xs-12
+      h1.m-0.text-dark Viral Load Test Statistics
+     .col-6.col-md-6.col-sm-12.col-xs-12
+      span.text-center.float-right
+       i [<b>Province</b> : #{ (typeof province !== 'undefined')? ((province.toString()==='')? 'All' : province.toString()) : 'All' }] &nbsp;&nbsp;&nbsp;&nbsp; [<b>District</b> : #{ (typeof district !== 'undefined')? ((district.toString()==='')? 'All' : district.toString())  : 'All' }]&nbsp;&nbsp;&nbsp;&nbsp;[<b>Facility</b> : #{ (typeof facility !== 'undefined')? ((facility.toString()==='')? 'All' : facility.toString())  : 'All' }] &nbsp;&nbsp;&nbsp;&nbsp[<b>Start Date</b> : #{ (typeof start !== 'undefined')? start.toString() : 'Begining of Last Month' }] &nbsp;&nbsp;&nbsp;&nbsp; [<b>End Date</b> : #{ (typeof end !== 'undefined')? end.toString() : 'End of Last Month' }]
+  .content 
+    .row
+     .col-12.col-md-12.col-sm-12
+      .card
+       .card-body
+        form(action="/vllists", method="post").form-inline
+         .form-group.form-group-lg.col-3.col-md-3.col-sm-3
+          select(name="province" id="province" ).w-100.form-control
+           - var plist = Array.from(new Set(obj2.map(item=>item.Province)))
+           - var dlist = Array.from(new Set(obj2.map(item=>item.District)))
+           - var flist = Array.from(new Set(obj2.map(item=>item.Facility)))
+           
+           option(value= "" selected) Select Province
+           each val in plist
+            option(value=val) #{ val }
+         .form-group.form-group-lg.col-3.col-md-3.col-sm-3
+          select(name="district" id="district" ).w-100.form-control
+           
+           option(value= "" selected) Select District
+           each dval in dlist
+            - var t = obj2.filter(item=>item.District === dval)
+            - var p = Array.from(new Set(t.map(item=>item.Province)))
+            option(value=dval, class=p[0]) #{ dval }
+         .form-group.form-group-lg.col-3.col-md-3.col-sm-3
+          input(type="text", name="daterange" value="").w-100.form-control
+         .form-group.form-group-lg.col-3.col-md-3.col-sm-3
+          input(type="submit", name="submit", value="Get Data").w-100.form-control
+    .row
+     .col-12
+      .card
+       .card-header
+        h3.card-title Listed Viral Load Test Statistics
+       .card-body
+        div(id="table_wrap").dataTables_wrapper.dt-bootstrap4
+         .row
+         .row
+         .row
