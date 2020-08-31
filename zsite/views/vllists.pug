@@ -43,6 +43,49 @@ block content-data
         h3.card-title Listed Viral Load Test Statistics
        .card-body
         div(id="table_wrap").dataTables_wrapper.dt-bootstrap4
+         //.row
+          .col-sm-12.colmd-6
+           div(id="dataTables_length").dataTables_length
+            label Show <select name="dataTables_length", aria-controls="dataTables" class="custom-select custom-select-sm form-control form-control-sm"></select>
+            select(name="dataTables_length", aria-controls="dataTables").custom-select.custom-select-sm.form-control.form-control-sm
+              option(value = "10") 10
+              option(value="25") 25
+              option(value="100") 100
          .row
-         .row
+          .col-sm-12
+           -var tbdata = obj
+           div(id="dataTables_length").dataTables_length
+            table(id="vllist", role="grid", width="100%").table.table-bordered.table-hover.table-striped.dataTable
+             thead
+              tr
+               th Province
+               th District
+               th Facility
+               th Gender
+               th Age Group
+               th Tests
+               th Suppressed
+               th UnSuppressed
+               th Undetectable
+               th Tests with TAT Within 14 Days
+               th Tests on Pregnant Women
+               th Tests on BreastFeeding Mothers
+               th Baseline VL Tests
+             //tbody
+             each rowdata in tbdata
+              tr
+               td #{ rowdata.Province}
+               td #{ rowdata.District}
+               td #{ rowdata.Facility}
+               td #{ rowdata.Gender}
+               td #{ rowdata.AgeGroup}
+               td #{ rowdata.Tests}
+               td #{ rowdata.Suppressed}
+               td #{ rowdata.Unsuppressed}
+               td #{ rowdata.Undetectable}
+               td #{ rowdata.TATWithin14}
+               td #{ rowdata.Pregnant}
+               td #{ rowdata.BreastFeeding}
+               td #{ rowdata.BaselineVL}
+               
          .row

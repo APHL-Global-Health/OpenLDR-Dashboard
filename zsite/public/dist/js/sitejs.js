@@ -81,13 +81,14 @@ $('select[name="facility"]').click(function (e) {
   
 
 
-function renderChart(x,y,data_m){
+function renderChart(){
+  if(document.getElementById('agbarchart')){
   var ctx = document.getElementById('agbarchart').getContext('2d');
   var barchart = new Chart(ctx,
                           {
                             type: 'horizontalBar',
                             data: {
-                              labels: y,
+                              labels: labels,
                               datasets: [{
                                 label: 'Male',
                                 data: data_m,
@@ -137,10 +138,49 @@ function renderChart(x,y,data_m){
                               responsive: true,
                               legend: {position: 'bottom'}
                             }
-                          });
+                          });}
 }
+if(window.location.href.indexOf("/") != -1)
+renderChart();
 
-renderChart(data,labels,data_m);
+if(window.location.href.indexOf("/vllists") != -1)
+$(function () {
+  $('#vllist thead tr').clone(true).appendTo( '#vllist thead' );
+    $('#vllist thead tr:eq(1) th').each( function (i) {
+        var title = $(this).text();
+        if(title==='Province' || title =='District' || title=='Facility' || title=='Gender' || title=='Age Group')
+        $(this).html( '<input type="text" placeholder="'+title+'" size="4"/>' );
+        else $(this).html( '' );
+        $( 'input', this ).on( 'keyup change', function () {
+            if ( table.column(i).search() !== this.value ) {
+                table
+                    .column(i)
+                    .search( '\\b' + this.value + '\\b' ,true, false)
+                    .draw();
+            }
+        } );
+    } );
+
+  var table = $("#vllist").DataTable({
+        order: [[1, 'desc']],
+        paging: true,
+        pageLength: 13,
+        dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            {
+              extend: 'pdfHtml5',
+              orientation: 'landscape',
+              pageSize: 'LEGAL',
+              footer: true
+          }
+        ],
+        orderCellsTop: true,
+        fixedHeader: true
+  });
+  });
 
   $('.knob').knob({
     /*change : function (value) {

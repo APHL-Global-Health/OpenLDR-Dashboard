@@ -139,12 +139,12 @@ app.post('/vllists',function(req,res){
   var province = req.body.province;
   var district = req.body.district;
   //var facility =req.body.facility;
-  var qry="?Province="+province+"&District="+district+"&StDate="+stdate+"&EDate="+edate;
-  //console.log(qry);
+  var qry2="?Province="+province+"&District="+district+"&StDate="+stdate+"&EDate="+edate;
+  console.log(qry2);
   
 async.parallel([
 function(callback) {
-  request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralloadlists'+qry, function(error, response, body) {
+  request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralloadlists'+qry2, function(error, response, body) {
     if (!error && response.statusCode == 200) {
       return callback(null, response);
     }
@@ -167,6 +167,76 @@ if (err) {
 }
 
 res.render('vllists', {title: 'LIS Dashboard',obj: JSON.parse(results[0].body),obj2 : JSON.parse(results[1].body), province: province, district: district, start: stdate, end : edate});
+}) 
+
+  
+});  
+
+
+app.get("/eidtests", (req, res, next) => {
+  async.parallel([
+    function(callback) {
+      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/eid', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          return callback(null, response);
+        }
+        return callback(error || new Error('Response non-200'));
+      })
+    },
+    function(callback) {
+      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          return callback(null, response);
+        }
+        return callback(error || new Error('Response non-200'));
+      })
+    }
+  ],
+  // optional callback
+  function(err, results) {
+    if (err) {
+      // Handle or return error
+    }
+    res.render('eidtests', {title: 'LIS Dashboard - EID Tests',obj: JSON.parse(results[0].body),obj2 : JSON.parse(results[1].body)});
+  })
+}); 
+
+
+app.post('/eidtests',function(req,res){
+  var dates = req.body.daterange.split(" - ");
+  var stdate=dates[0];
+  var edate=dates[1];
+  var province = req.body.province;
+  var district = req.body.district;
+  var facility =req.body.facility;
+  var qry2="?Province="+province+"&District="+district+"&Facility="+facility+"&StDate="+stdate+"&EDate="+edate;
+  console.log(qry2);
+  
+async.parallel([
+function(callback) {
+  request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/eid'+qry2, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      return callback(null, response);
+    }
+    return callback(error || new Error('Response non-200'));
+  })
+},
+function(callback) {
+  request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      return callback(null, response);
+    }
+    return callback(error || new Error('Response non-200'));
+  })
+}
+],
+// optional callback
+function(err, results) {
+if (err) {
+  // Handle or return error
+}
+
+res.render('eidtests', {title: 'LIS Dashboard - EID Tests',obj: JSON.parse(results[0].body),obj2 : JSON.parse(results[1].body), province: province, district: district, start: stdate, end : edate});
 }) 
 
   

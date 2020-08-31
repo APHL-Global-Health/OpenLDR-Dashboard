@@ -5,7 +5,7 @@ block content-data
    .container-fluid
     .row.mb-2
      .col-6.col-md-6.col-sm-12.col-xs-12
-      h1.m-0.text-dark Viral Load Test Statistics
+      h1.m-0.text-dark Early Infant Diagnosis Test Statistics
      .col-6.col-md-6.col-sm-12.col-xs-12
       span.text-center.float-right
        i [<b>Province</b> : #{ (typeof province !== 'undefined')? ((province.toString()==='')? 'All' : province.toString()) : 'All' }] &nbsp;&nbsp;&nbsp;&nbsp; [<b>District</b> : #{ (typeof district !== 'undefined')? ((district.toString()==='')? 'All' : district.toString())  : 'All' }]&nbsp;&nbsp;&nbsp;&nbsp;[<b>Facility</b> : #{ (typeof facility !== 'undefined')? ((facility.toString()==='')? 'All' : facility.toString())  : 'All' }] &nbsp;&nbsp;&nbsp;&nbsp[<b>Start Date</b> : #{ (typeof start !== 'undefined')? start.toString() : 'Begining of Last Month' }] &nbsp;&nbsp;&nbsp;&nbsp; [<b>End Date</b> : #{ (typeof end !== 'undefined')? end.toString() : 'End of Last Month' }]
@@ -14,7 +14,7 @@ block content-data
      .col-12.col-md-12.col-sm-12
       .card
        .card-body
-        form(action="/", method="post").form-inline
+        form(action="/eidtests", method="post").form-inline
          .form-group.form-group-lg.col-12.col-md-3.col-sm-6
           select(name="province" id="province" ).w-100.form-control
            - var plist = Array.from(new Set(obj2.map(item=>item.Province)))
@@ -52,44 +52,44 @@ block content-data
        span.info-box-icon.bg-info.elevation-1
         i.fas.fa-vials
        .info-box-content
-        span.info-box-text HIV Viral Load Tests
+        span.info-box-text EID Tests
         span.info-box-number #{obj.Tests.toLocaleString()}
      .col-12.col-sm-6.col-md-3
       .info-box.mb-3
        span.info-box-icon.bg-success.elevation-1
         i.fas.fa-adjust
        .info-box-content
-        span.info-box-text Suppressed
-        span.info-box-number #{obj.Suppressed.toLocaleString()}
+        span.info-box-text Negative
+        span.info-box-number #{obj.Negative.toLocaleString()}
      .col-12.col-sm-6.col-md-3
       .info-box.mb-3
        span.info-box-icon.bg-danger.elevation-1
         i.fas.fa-adjust
        .info-box-content
-        span.info-box-text UnSuppressed
-        span.info-box-number #{obj.Unsuppressed.toLocaleString()}
+        span.info-box-text Positive
+        span.info-box-number #{obj.Positive.toLocaleString()}
      .col-12.col-sm-6.col-md-3
       .info-box.mb-3
        span.info-box-icon.bg-warning.elevation-1
         i.fas.fa-diagnoses
        .info-box-content
         span.info-box-text U=U/Undetectable
-        span.info-box-number #{obj.Undetectable.toLocaleString()}
+        span.info-box-number 
     .row
      .col-xl-3.col-lg-3.col-md-3.col-sm-12.col-xs-12
       div(style="height:100%").card.mb-3
        .card-header
-        h4 Suppression Statistics
+        h4 Positivity Statistics
        .card-body
         .text-center
-         input(type=text, value=(100*obj.SuppressionRate).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.SuppressionRate, data-fgColor=(obj.SuppressionRate>=0.9)? "#009933" : (obj.SuppressionRate>=0.8)? "#FFA500" :"#ff3333", data-readOnly="true", data-width="100%", data-heght="100%").knob
+         input(type=text, value=(100*obj.PositivityRate).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.SuppressionRate, data-fgColor=(obj.SuppressionRate>=0.9)? "#009933" : (obj.SuppressionRate>=0.8)? "#FFA500" :"#ff3333", data-readOnly="true", data-width="100%", data-heght="100%").knob
          .knob-label 
-          b Suppression (%)
-        .text-center
+          b Positivity (%)
+        //.text-center
          input(type=text, value=(obj.Undetectable*100/obj.Tests).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.SuppressionRate, data-fgColor="#FFA500", data-readOnly="true", data-width="100%", data-heght="100%").knob
          .knob-label 
           b U=U/Undetectable (%)
-     .col-xl-6.col-lg-6.col-md-6.col-sm-12.col-xs-12
+     //.col-xl-6.col-lg-6.col-md-6.col-sm-12.col-xs-12
       div(style="height:100%").card.mb-3.elevation-1
        .card-header
         h4 Tests By Age Group (in Years) and Gender
@@ -103,7 +103,7 @@ block content-data
          var data_i = [#{obj.lt01i},#{obj._1to4i},#{obj._5to9i},#{obj._10to14i},#{obj._15to19i},#{obj._20to24i},#{obj._25to29i},#{obj._30to34i},#{obj._35to39i},#{obj._40to44i},#{obj._45to49i},#{obj._50plusi},#{obj.AgeMissingi}];
          var data_u = [#{obj.lt01u},#{obj._1to4u},#{obj._5to9u},#{obj._10to14u},#{obj._15to19u},#{obj._20to24u},#{obj._25to29u},#{obj._30to34u},#{obj._35to39u},#{obj._40to44u},#{obj._45to49u},#{obj._50plusu},#{obj.AgeMissingu}];
          var data_x = [#{obj.lt01x},#{obj._1to4x},#{obj._5to9x},#{obj._10to14x},#{obj._15to19x},#{obj._20to24x},#{obj._25to29x},#{obj._30to34x},#{obj._35to39x},#{obj._40to44x},#{obj._45to49x},#{obj._50plusx},#{obj.AgeMissingx}];
-     .col-xl-3.col-lg-3.col-md-3.col-sm-12.col-xs-12
+     //.col-xl-3.col-lg-3.col-md-3.col-sm-12.col-xs-12
       div(style="height:100%").card.mb-3.elevation-1
        .card-header
         h4 Turn Around Time Statistics
@@ -116,7 +116,7 @@ block content-data
          input(type=text, value=(obj.AverageTAT).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=obj.AverageTAT, data-fgColor=(obj.AverageTAT>14)? "#ff3333" :"#009933", data-readOnly="true", data-width="100%", data-heght="100%").knob
          .knob-label 
           b Average Turn Around Time (days)
-    .row
+    //.row
      .col-xl-4.col-lg-4.col-md-4.col-sm-12.col-xs-12
       div(style="height:100%").card.mt-3
        .card-header
@@ -127,12 +127,12 @@ block content-data
           i.fas.fa-blog
          .info-box-content
           span.info-box-text Number of Tests
-          span.info-box-number #{(obj.Pregnant).toLocaleString(undefined, {maximumFractionDigits:0})}
+          span.info-box-number 
           .progress
-           -var suprate1 = (obj.Pregnant!==0)? 'width:'+(100*(obj.PregnantSup/obj.Pregnant)).toString()+'%' : 'width: 0%';
+           
            div(style=suprate1).progress-bar
-          - var suprate1value=(obj.Pregnant!==0)? (100*(obj.PregnantSup/obj.Pregnant)) : 0;
-          span.progress-description #{obj.PregnantSup} Test results virally Suppressed (#{suprate1value.toLocaleString(undefined,{maximumFractionDigits:1})}%)
+          
+          span.progress-description 
      .col-xl-4.col-lg-4.col-md-4.col-sm-12.col-xs-12
       div(style="height:100%").card.mt-3
        .card-header
@@ -143,12 +143,12 @@ block content-data
           i.fas.fa-baby
          .info-box-content
           span.info-box-text Number of Tests
-          span.info-box-number #{(obj.BreastFeeding).toLocaleString(undefined, {maximumFractionDigits:0})}
+          span.info-box-number 
           .progress
-           -var suprate2 = (obj.BreastFeeding!==0)? 'width:'+(100*(obj.BreastFeedingSup/obj.BreastFeeding)).toString()+'%' : 'width: 0%';
+          
            div(style=suprate2).progress-bar
-          - var suprate2value = (obj.BreastFeeding!==0)? (100*(obj.BreastFeedingSup/obj.BreastFeeding)) : 0;
-          span.progress-description #{obj.BreastFeedingSup} Test results virally Suppressed (#{suprate2value.toLocaleString(undefined,{maximunFractionDigits:1})}%)
+          
+          span.progress-description 
      .col-xl-4.col-lg-4.col-md-4.col-sm-12.col-xs-12
       div(style="height:100%").card.mt-3
        .card-header
@@ -159,9 +159,9 @@ block content-data
           i.fas.fa-hourglass-start 
          .info-box-content
           span.info-box-text Number of Tests
-          span.info-box-number #{(obj.BaselineVL).toLocaleString(undefined, {maximumFractionDigits:0})}
+          span.info-box-number 
           .progress
-           -var suprate3 = (obj.BaselineVL!==0)? 'width:'+(100*(obj.BaselineVLSup/obj.BaselineVL)).toString()+'%' : 'width: 0%';
+           
            div(style=suprate3).progress-bar
-          - var suprate3value=(obj.BaselineVL!==0)? (100*(obj.BaselineVLSup/obj.BaselineVL)) : 0;
-          span.progress-description #{obj.BaselineVLSup} Test results virally Suppressed (#{suprate3value.toLocaleString(undefined,{maximumFractionDigits:1})}%)
+          
+          span.progress-description 
