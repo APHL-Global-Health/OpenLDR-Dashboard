@@ -121,7 +121,7 @@ function renderChart(){
                                     stacked: true,
                                     scaleLabel: {
                                       display: true,
-                                      labelString: 'Number of VL Tests'
+                                      labelString: 'Number of Tests'
                                     }
                                   }
                                 ],
@@ -143,8 +143,8 @@ function renderChart(){
 if(window.location.href.indexOf("/") != -1)
 renderChart();
 
-if(window.location.href.indexOf("/vllists") != -1)
-$(function () {
+if(window.location.href.indexOf("/vllists") != -1) {
+$(function () { /*
   $('#vllist thead tr').clone(true).appendTo( '#vllist thead' );
     $('#vllist thead tr:eq(1) th').each( function (i) {
         var title = $(this).text();
@@ -159,12 +159,12 @@ $(function () {
                     .draw();
             }
         } );
-    } );
+    } ); */
 
   var table = $("#vllist").DataTable({
         order: [[1, 'desc']],
         paging: true,
-        pageLength: 13,
+        pageLength: 10,
         dom: 'Bfrtip',
         buttons: [
             'copyHtml5',
@@ -178,9 +178,11 @@ $(function () {
           }
         ],
         orderCellsTop: true,
-        fixedHeader: true
+        fixedHeader: true,
+        
   });
   });
+}
 
   $('.knob').knob({
     /*change : function (value) {

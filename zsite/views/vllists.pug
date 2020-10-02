@@ -8,7 +8,7 @@ block content-data
       h1.m-0.text-dark Viral Load Test Statistics
      .col-6.col-md-6.col-sm-12.col-xs-12
       span.text-center.float-right
-       i [<b>Province</b> : #{ (typeof province !== 'undefined')? ((province.toString()==='')? 'All' : province.toString()) : 'All' }] &nbsp;&nbsp;&nbsp;&nbsp; [<b>District</b> : #{ (typeof district !== 'undefined')? ((district.toString()==='')? 'All' : district.toString())  : 'All' }]&nbsp;&nbsp;&nbsp;&nbsp;[<b>Facility</b> : #{ (typeof facility !== 'undefined')? ((facility.toString()==='')? 'All' : facility.toString())  : 'All' }] &nbsp;&nbsp;&nbsp;&nbsp[<b>Start Date</b> : #{ (typeof start !== 'undefined')? start.toString() : 'Begining of Last Month' }] &nbsp;&nbsp;&nbsp;&nbsp; [<b>End Date</b> : #{ (typeof end !== 'undefined')? end.toString() : 'End of Last Month' }]
+       i [Province :<b> #{ (typeof province !== 'undefined')? ((province.toString()==='')? 'All' : province.toString()) : 'All' }</b>] &nbsp;&nbsp;&nbsp;&nbsp; [District :<b> #{ (typeof district !== 'undefined')? ((district.toString()==='')? 'All' : district.toString())  : 'All' }</b>]&nbsp;&nbsp;&nbsp;&nbsp;[Facility : <b>#{ (typeof facility !== 'undefined')? ((facility.toString()==='')? 'All' : facility.toString())  : 'All' }</b>] &nbsp;&nbsp;&nbsp;&nbsp[Start Date : <b>#{ (typeof start !== 'undefined')? start.toString() : 'Begining of Last Month' }</b>] &nbsp;&nbsp;&nbsp;&nbsp; [End Date :<b> #{ (typeof end !== 'undefined')? end.toString() : 'End of Last Month' }</b>]
   .content 
     .row
      .col-12.col-md-12.col-sm-12
@@ -55,19 +55,19 @@ block content-data
           .col-sm-12
            -var tbdata = obj
            div(id="dataTables_length").dataTables_length
-            table(id="vllist", role="grid", width="100%").table.table-bordered.table-hover.table-striped.dataTable
+            table(id="vllist", role="grid", width="100%").table.table-bordered.table-hover.table-striped.dataTable.responsive.nowrap
              thead
               tr
-               th Province
-               th District
-               th Facility
-               th Gender
-               th Age Group
+               th(data-priority="1") Province
+               th(data-priority="2") District
+               th(data-priority="3") Facility
+               th(data-priority="4") Gender
+               th(data-priority="5") Age Group
                th Tests
                th Suppressed
                th UnSuppressed
                th Undetectable
-               th Tests with TAT Within 14 Days
+               th Tested Within 14 Days
                th Tests on Pregnant Women
                th Tests on BreastFeeding Mothers
                th Baseline VL Tests

@@ -274,7 +274,7 @@ namespace OpenLDR.Dashboard.API.Models
 					var Negative = dataReader.ToInt("Negative");
 					var PositivityRate = dataReader.ToDouble("PositivityRate");
 					var AverageTAT = dataReader.ToDouble("AverageTAT");
-					var TATWithin14 = dataReader.ToInt("TATWithin14");
+					var TATWithin14 = dataReader.ToDouble("TATWithin14");
 					var Male = dataReader.ToInt("Male");
 					var Female = dataReader.ToInt("Female");
 					var IndeterminateGender = dataReader.ToInt("IndeterminateGender");
