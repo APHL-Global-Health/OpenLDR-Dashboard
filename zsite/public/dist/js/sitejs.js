@@ -34,7 +34,7 @@ $(document).ready(function() {
 
     cb(start, end);
 
-    
+ 
 
 //});
 
@@ -143,7 +143,7 @@ function renderChart(){
 if(window.location.href.indexOf("/") != -1)
 renderChart();
 
-if(window.location.href.indexOf("/vllists") != -1) {
+//if(window.location.href.indexOf("/vllists") != -1) {
 $(function () { /*
   $('#vllist thead tr').clone(true).appendTo( '#vllist thead' );
     $('#vllist thead tr:eq(1) th').each( function (i) {
@@ -182,7 +182,7 @@ $(function () { /*
         
   });
   });
-}
+//}
 
   $('.knob').knob({
     /*change : function (value) {
@@ -244,5 +244,7 @@ $(function () { /*
     }
   });
 });
+
+
 
 

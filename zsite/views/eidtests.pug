@@ -82,7 +82,7 @@ block content-data
         h4 Positivity Statistics
        .card-body
         .text-center
-         input(type=text, value=(100*obj.PositivityRate).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.SuppressionRate, data-fgColor=(obj.SuppressionRate>=0.9)? "#009933" : (obj.SuppressionRate>=0.8)? "#FFA500" :"#ff3333", data-readOnly="true", data-width="100%", data-heght="100%").knob
+         input(type=text, value=(100*obj.PositivityRate).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.SuppressionRate, data-fgColor=(obj.SuppressionRate>=0.9)? "#009933" : (obj.SuppressionRate>=0.8)? "#FFA500" :"#ff3333", data-readOnly="true", data-diameter="80px").knob
          .knob-label 
           b Positivity (%)
         //.text-center
@@ -109,11 +109,11 @@ block content-data
         h4 Turn Around Time Statistics
        .card-body
         .text-center
-         input(type=text, value=(100*obj.TATWithin14).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.TATWithin14, data-fgColor=(obj.TATWithin14>=0.8)? "#009933": (obj.TATWithin14>=0.5)? "#FFA500" :"#ff3333", data-readOnly="true", data-width="100%", data-heght="100%").knob
+         input(type=text, value=(100*obj.TATWithin14).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.TATWithin14, data-fgColor=(obj.TATWithin14>=0.8)? "#009933": (obj.TATWithin14>=0.5)? "#FFA500" :"#ff3333", data-readOnly="true", data-diameter="80px").knob
          .knob-label 
           b Samples Tested within 14 days (%)
         .text-center
-         input(type=text, value=(obj.AverageTAT).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=obj.AverageTAT, data-fgColor=(obj.AverageTAT>14)? "#ff3333" :"#009933", data-readOnly="true", data-width="100%", data-heght="100%").knob
+         input(type=text, value=(obj.AverageTAT).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=obj.AverageTAT, data-fgColor=(obj.AverageTAT>14)? "#ff3333" :"#009933", data-readOnly="true", data-diameter="80px").knob
          .knob-label 
           b Average Turn Around Time (days)
     //.row
