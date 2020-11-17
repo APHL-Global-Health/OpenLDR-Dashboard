@@ -279,6 +279,41 @@ namespace OpenLDR.Dashboard.API.Controllers
         }
 
 
+        //Example = https://[Domain]:[Port]/api/openldr/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/orglevel
+        [HttpGet("{apikey}/v{version}/{returntype}/eidtrends")]
+        public async Task<string> GetEIDTrends(string apikey, double version, string returntype, [FromQuery] string province, [FromQuery] string district, [FromQuery] string facility)
+        {
+            try
+            {
+                if (version.Equals(ApiVersion))
+                {
+                    if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
+                    {
+                        if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
+                        {
+
+                            if (!string.IsNullOrEmpty(ConnectionString))
+                            {
+                                var EIDTrends = EIDTrend.All(ApiConfiguration, ConnectionString, province, district, facility);
+
+                                var list = new List<EIDTrend>();
+                                list.AddRange(EIDTrends);
+
+                                return await list.ToReturnType(returntype);
+                            }
+                            else return await Core.ToReturnType(new Response("Failed", "Something Wrong...."), returntype);
+
+                        }
+                        else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
+                    }
+                    else return await Core.OutputText("Supported return types are json and xml only.");
+                }
+                else return await Core.OutputText("Version not yet implemented");
+            }
+            catch (Exception ex) { return await Core.ToReturnType(new Response("Failed", ex.Message), "json"); }
+        }
+
+
         //Example = https://[Domain]:[Port]/api/openldr/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/viralload
         [HttpGet("{apikey}/v{version}/{returntype}/vlclientinfo")]
         public async Task<string> GetVLClientInfo(string apikey, double version, string returntype, [FromQuery] string province, [FromQuery] string district, [FromQuery] string facility, [FromQuery] DateTime stdate, [FromQuery] DateTime edate)
