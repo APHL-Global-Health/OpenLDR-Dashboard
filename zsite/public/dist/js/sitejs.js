@@ -139,6 +139,80 @@ function renderChart(){
                               legend: {position: 'bottom'}
                             }
                           });}
+
+                          else if(document.getElementById('trendchart1')){
+                            var ctx = document.getElementById('trendchart1').getContext('2d');
+  var barchart = new Chart(ctx,
+                          {
+                            type: 'line',
+                            data: {
+                              labels: labels,
+                              datasets: [{
+                                label: 'Tests',
+                                data: data,
+                                backgroundColor: '#3e95cd',
+                                borderColor: '#3e95cd',
+                                lineTension: 0.1,
+                                fill: false
+                              },{
+                                label: 'Suppressed',
+                                data: data_m,
+                                backgroundColor: '#8e5ea2',
+                                borderColor: '#8e5ea2',
+                                lineTension: 0.1,
+                                fill: false
+                              },{
+                                label: 'Undetectable',
+                                data: data_f,
+                                backgroundColor: '#3cba9f',
+                                borderColor: '#3cba9f',
+                                lineTension: 0.1,
+                                fill: false
+                              },{
+                                label: 'Tested within 14 days',
+                                data: data_i,
+                                backgroundColor: '#e8c3b9',
+                                borderColor: '#e8c3b9',
+                                lineTension: 0.1,
+                                fill: false
+                              },{
+                                label: 'Pregnant',
+                                data: data_u,
+                                backgroundColor: '#c45850',
+                                borderColor: '#c45850',
+                                lineTension: 0.1,
+                                fill: false
+                              }]
+                            },
+                            options: {
+                              tooltips: {
+
+                              },
+                              scales:{
+                                xAxes: [
+                                  {
+                                    stacked: false,
+                                    scaleLabel: {
+                                      display: true,
+                                      labelString: 'Months'
+                                    }
+                                  }
+                                ],
+                                yAxes: [
+                                  {
+                                    stacked: false,
+                                    scaleLabel: {
+                                      display: true,
+                                      labelString: 'Number of Tests'
+                                    }
+                                  }
+                                ]
+                              },
+                              responsive: true,
+                              legend: {position: 'bottom'}
+                            }
+                          });
+                          }
 }
 if(window.location.href.indexOf("/") != -1)
 renderChart();
@@ -161,6 +235,7 @@ $(function () { /*
         } );
     } ); */
 
+    if(document.getElementById('vllist')){
   var table = $("#vllist").DataTable({
         order: [[1, 'desc']],
         paging: true,
@@ -180,7 +255,29 @@ $(function () { /*
         orderCellsTop: true,
         fixedHeader: true,
         
-  });
+  }); }
+  else if(document.getElementById('vltrends')){
+    var table = $("#vltrends").DataTable({
+      order: [[1, 'desc']],
+      paging: true,
+      pageLength: 12,
+      dom: 'Bfrtip',
+      buttons: [
+          'copyHtml5',
+          'excelHtml5',
+          'csvHtml5',
+          {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            footer: true
+        }
+      ],
+      orderCellsTop: true,
+      //fixedHeader: true,
+      
+});
+  }
   });
 //}
 

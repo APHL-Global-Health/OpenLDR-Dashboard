@@ -8,13 +8,13 @@ block content-data
       h1.m-0.text-dark Viral Load Test Statistics
      .col-6.col-md-6.col-sm-12.col-xs-12
       span.text-center.float-right
-       i [<b>Province</b> : #{ (typeof province !== 'undefined')? ((province.toString()==='')? 'All' : province.toString()) : 'All' }] &nbsp;&nbsp;&nbsp;&nbsp; [<b>District</b> : #{ (typeof district !== 'undefined')? ((district.toString()==='')? 'All' : district.toString())  : 'All' }]&nbsp;&nbsp;&nbsp;&nbsp;[<b>Facility</b> : #{ (typeof facility !== 'undefined')? ((facility.toString()==='')? 'All' : facility.toString())  : 'All' }] &nbsp;&nbsp;&nbsp;&nbsp[<b>Start Date</b> : #{ (typeof start !== 'undefined')? start.toString() : 'Begining of Last Month' }] &nbsp;&nbsp;&nbsp;&nbsp; [<b>End Date</b> : #{ (typeof end !== 'undefined')? end.toString() : 'End of Last Month' }]
+       i [<b>Province</b> : #{ (typeof province !== 'undefined')? ((province.toString()==='')? 'All' : province.toString()) : 'All' }] &nbsp;&nbsp;&nbsp;&nbsp; [<b>District</b> : #{ (typeof district !== 'undefined')? ((district.toString()==='')? 'All' : district.toString())  : 'All' }]&nbsp;&nbsp;&nbsp;&nbsp;[<b>Facility</b> : #{ (typeof facility !== 'undefined')? ((facility.toString()==='')? 'All' : facility.toString())  : 'All' }]
   .content 
     .row
      .col-12.col-md-12.col-sm-12
       .card
        .card-body
-        form(action="/", method="post").form-inline
+        form(action="/vltrends", method="post").form-inline
          .form-group.form-group-lg.col-12.col-md-3.col-sm-6
           select(name="province" id="province" ).w-100.form-control
            - var plist = Array.from(new Set(obj2.map(item=>item.Province)))
@@ -42,126 +42,51 @@ block content-data
             - var p = Array.from(new Set(t.map(item=>item.District)))
             option(value=fval, class=p[0]) #{ fval }
 
-         .form-group.form-group-lg.col-6.col-md-2.col-sm-3
-          input(type="text", name="daterange" value="").w-100.form-control
-         .form-group.form-group-lg.col-6.col-md-1.col-sm-3
+         .form-group.form-group-lg.col-12.col-md-3.col-sm-6
           input(type="submit", name="submit", value="Get Data").w-100.form-control
+
     .row
-     .col-12.col-sm-6.col-md-3
-      .info-box.mb-3
-       span.info-box-icon.bg-info.elevation-1
-        i.fas.fa-vials
-       .info-box-content
-        span.info-box-text HIV Viral Load Tests
-        span.info-box-number #{obj.Tests.toLocaleString()}
-     .col-12.col-sm-6.col-md-3
-      .info-box.mb-3
-       span.info-box-icon.bg-success.elevation-1
-        i.fas.fa-adjust
-       .info-box-content
-        span.info-box-text Suppressed
-        span.info-box-number #{obj.Suppressed.toLocaleString()}
-     .col-12.col-sm-6.col-md-3
-      .info-box.mb-3
-       span.info-box-icon.bg-danger.elevation-1
-        i.fas.fa-adjust
-       .info-box-content
-        span.info-box-text UnSuppressed
-        span.info-box-number #{obj.Unsuppressed.toLocaleString()}
-     .col-12.col-sm-6.col-md-3
-      .info-box.mb-3
-       span.info-box-icon.bg-warning.elevation-1
-        i.fas.fa-diagnoses
-       .info-box-content
-        span.info-box-text U=U/Undetectable
-        span.info-box-number #{obj.Undetectable.toLocaleString()}
-    .row
-     .col-xl-3.col-lg-3.col-md-3.col-sm-12.col-xs-12
-      div(style="height:100%").card.mb-3
-       .card-header
-        h4 Suppression Statistics
-       .card-body
-        .text-center
-         input(type=text, value=(100*obj.SuppressionRate).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.SuppressionRate, data-fgColor=(obj.SuppressionRate>=0.9)? "#009933" : (obj.SuppressionRate>=0.8)? "#FFA500" :"#ff3333", data-readOnly="true", data-width="100%", data-heght="100%").knob
-         .knob-label 
-          b Suppression (%)
-        .text-center
-         input(type=text, value=(obj.Undetectable*100/obj.Tests).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.SuppressionRate, data-fgColor="#FFA500", data-readOnly="true", data-width="100%", data-heght="100%").knob
-         .knob-label 
-          b U=U/Undetectable (%)
-     .col-xl-6.col-lg-6.col-md-6.col-sm-12.col-xs-12
+     .col-xl-8.col-lg-8.col-md-8.col-sm-12.col-xs-12
       div(style="height:100%").card.mb-3.elevation-1
        .card-header
-        h4 Tests By Age Group (in Years) and Gender
+        h4 Viral load Testing Trends for the Last 12 Months
        .card-body 
-        canvas(id="agbarchart",style="min-height: 100%; height: 100%; max-height: 100%; max-width: 100%;").chart
+        canvas(id="trendchart1",style="min-height: 250px; height: 250px; max-height: 100%; max-width: 100%;").chart
         script(type='text/javascript').
-         var labels = ['<1','1-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50+','Age Missing'];
-         var data = [#{obj.lt01},#{obj._1to4},#{obj._5to9},#{obj._10to14},#{obj._15to19},#{obj._20to24},#{obj._25to29},#{obj._30to34},#{obj._35to39},#{obj._40to44},#{obj._45to49},#{obj._50plus},#{obj.AgeMissing}];
-         var data_m = [#{obj.lt01m},#{obj._1to4m},#{obj._5to9m},#{obj._10to14m},#{obj._15to19m},#{obj._20to24m},#{obj._25to29m},#{obj._30to34m},#{obj._35to39m},#{obj._40to44m},#{obj._45to49m},#{obj._50plusm},#{obj.AgeMissingm}];
-         var data_f = [#{obj.lt01f},#{obj._1to4f},#{obj._5to9f},#{obj._10to14f},#{obj._15to19f},#{obj._20to24f},#{obj._25to29f},#{obj._30to34f},#{obj._35to39f},#{obj._40to44f},#{obj._45to49f},#{obj._50plusf},#{obj.AgeMissingf}];
-         var data_i = [#{obj.lt01i},#{obj._1to4i},#{obj._5to9i},#{obj._10to14i},#{obj._15to19i},#{obj._20to24i},#{obj._25to29i},#{obj._30to34i},#{obj._35to39i},#{obj._40to44i},#{obj._45to49i},#{obj._50plusi},#{obj.AgeMissingi}];
-         var data_u = [#{obj.lt01u},#{obj._1to4u},#{obj._5to9u},#{obj._10to14u},#{obj._15to19u},#{obj._20to24u},#{obj._25to29u},#{obj._30to34u},#{obj._35to39u},#{obj._40to44u},#{obj._45to49u},#{obj._50plusu},#{obj.AgeMissingu}];
-         var data_x = [#{obj.lt01x},#{obj._1to4x},#{obj._5to9x},#{obj._10to14x},#{obj._15to19x},#{obj._20to24x},#{obj._25to29x},#{obj._30to34x},#{obj._35to39x},#{obj._40to44x},#{obj._45to49x},#{obj._50plusx},#{obj.AgeMissingx}];
-     .col-xl-3.col-lg-3.col-md-3.col-sm-12.col-xs-12
+         //var tb = obj; 
+         var labels = [#{obj.map(item =>'\''+item.MonthID+'\'')}];
+         var data = [#{obj.map(item =>item.Tests)}];
+         var data_m = [#{obj.map(item =>item.Suppressed)}];
+         var data_f = [#{obj.map(item =>item.Undetectable)}];
+         var data_i = [#{obj.map(item =>item.Within14)}];
+         var data_u = [#{obj.map(item =>item.Pregnant)}];
+         //var data_x = [#{obj.map(item =>item.BreastFeeding)}];
+     .col-xl-4.col-lg-4.col-md-4.col-sm-12.col-xs-12
       div(style="height:100%").card.mb-3.elevation-1
-       .card-header
-        h4 Turn Around Time Statistics
+       //.card-header
+        h4 Trends for the Last 12 Months - Raw data
        .card-body
-        .text-center
-         input(type=text, value=(100*obj.TATWithin14).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.TATWithin14, data-fgColor=(obj.TATWithin14>=0.8)? "#009933": (obj.TATWithin14>=0.5)? "#FFA500" :"#ff3333", data-readOnly="true", data-width="100%", data-heght="100%").knob
-         .knob-label 
-          b Samples Tested within 14 days (%)
-        .text-center
-         input(type=text, value=(obj.AverageTAT).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=obj.AverageTAT, data-fgColor=(obj.AverageTAT>14)? "#ff3333" :"#009933", data-readOnly="true", data-width="100%", data-heght="100%").knob
-         .knob-label 
-          b Average Turn Around Time (days)
-    .row
-     .col-xl-4.col-lg-4.col-md-4.col-sm-12.col-xs-12
-      div(style="height:100%").card.mt-3
-       .card-header
-        h4 Pregnant Women
-       .card-body
-        .info-box.bg-gradient-info
-         span.info-box-icon
-          i.fas.fa-blog
-         .info-box-content
-          span.info-box-text Number of Tests
-          span.info-box-number #{(obj.Pregnant).toLocaleString(undefined, {maximumFractionDigits:0})}
-          .progress
-           -var suprate1 = (obj.Pregnant!==0)? 'width:'+(100*(obj.PregnantSup/obj.Pregnant)).toString()+'%' : 'width: 0%';
-           div(style=suprate1).progress-bar
-          - var suprate1value=(obj.Pregnant!==0)? (100*(obj.PregnantSup/obj.Pregnant)) : 0;
-          span.progress-description #{obj.PregnantSup} Test results virally Suppressed (#{suprate1value.toLocaleString(undefined,{maximumFractionDigits:1})}%)
-     .col-xl-4.col-lg-4.col-md-4.col-sm-12.col-xs-12
-      div(style="height:100%").card.mt-3
-       .card-header
-        h4 BreastFeeding Mothers
-       .card-body
-        .info-box.bg-gradient-info
-         span.info-box-icon
-          i.fas.fa-baby
-         .info-box-content
-          span.info-box-text Number of Tests
-          span.info-box-number #{(obj.BreastFeeding).toLocaleString(undefined, {maximumFractionDigits:0})}
-          .progress
-           -var suprate2 = (obj.BreastFeeding!==0)? 'width:'+(100*(obj.BreastFeedingSup/obj.BreastFeeding)).toString()+'%' : 'width: 0%';
-           div(style=suprate2).progress-bar
-          - var suprate2value = (obj.BreastFeeding!==0)? (100*(obj.BreastFeedingSup/obj.BreastFeeding)) : 0;
-          span.progress-description #{obj.BreastFeedingSup} Test results virally Suppressed (#{suprate2value.toLocaleString(undefined,{maximunFractionDigits:1})}%)
-     .col-xl-4.col-lg-4.col-md-4.col-sm-12.col-xs-12
-      div(style="height:100%").card.mt-3
-       .card-header
-        h4 Baseline Viral Load
-       .card-body
-        .info-box.bg-gradient-info
-         span.info-box-icon
-          i.fas.fa-hourglass-start 
-         .info-box-content
-          span.info-box-text Number of Tests
-          span.info-box-number #{(obj.BaselineVL).toLocaleString(undefined, {maximumFractionDigits:0})}
-          .progress
-           -var suprate3 = (obj.BaselineVL!==0)? 'width:'+(100*(obj.BaselineVLSup/obj.BaselineVL)).toString()+'%' : 'width: 0%';
-           div(style=suprate3).progress-bar
-          - var suprate3value=(obj.BaselineVL!==0)? (100*(obj.BaselineVLSup/obj.BaselineVL)) : 0;
-          span.progress-description #{obj.BaselineVLSup} Test results virally Suppressed (#{suprate3value.toLocaleString(undefined,{maximumFractionDigits:1})}%)
+        .col-sm-12 
+        -var tbdata = obj
+           div(id="dataTables_length").dataTables_length
+            table(id="vltrends", role="grid", width="100%").table.table-bordered.table-hover.table-striped.dataTable.responsive.nowrap
+             thead
+              tr
+               th(data-priority="1") Month
+               th(data-priority="2") Tests
+               th(data-priority="3") Suppressed
+               th(data-priority="4") Undetectable
+               th Tested Within 14 Days
+               th Tests on Pregnant Women
+               //th Tests on BreastFeeding Mothers
+             //tbody
+             each rowdata in tbdata
+              tr
+               td #{ rowdata.MonthID}
+               td #{ rowdata.Tests}
+               td #{ rowdata.Suppressed}
+               td #{ rowdata.Undetectable}
+               td #{ rowdata.Within14}
+               td #{ rowdata.Pregnant}
+               //td #{ rowdata.BreastFeeding}
+              
