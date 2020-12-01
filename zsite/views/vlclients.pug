@@ -94,7 +94,7 @@ block content-data
        .card-header
         h4 Tests By Age Group (in Years) and Gender
        .card-body 
-        canvas(id="agbarchart",style="min-height: 100%; height: 100%; max-height: 100%; max-width: 100%;").chart
+        canvas(id="agbarchart",style="min-height: 400px; height: 100%; max-height: 100%; max-width: 100%;").chart
         script(type='text/javascript').
          var labels = ['<1','1-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50+','Age Missing'];
          //var data = [#{obj.lt01},#{obj._1to4},#{obj._5to9},#{obj._10to14},#{obj._15to19},#{obj._20to24},#{obj._25to29},#{obj._30to34},#{obj._35to39},#{obj._40to44},#{obj._45to49},#{obj._50plus},#{obj.AgeMissing}];
@@ -116,4 +116,47 @@ block content-data
          //input(type=text, value=(obj.AverageTAT).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=obj.AverageTAT, data-fgColor=(obj.AverageTAT>14)? "#ff3333" :"#009933", data-readOnly="true", data-width="100%", data-heght="100%").knob
          .knob-label 
           b Average Turn Around Time (days)
-    
+    .row
+      .col-12
+       .card
+        .card-header
+         h3.card-title Listed Viral Load Client Statistics
+        .card-body
+         div(id="table_wrap").dataTables_wrapper.dt-bootstrap4
+         
+          .row
+           .col-sm-12
+            -var tbdata = obj3
+            div(id="dataTables_length").dataTables_length
+             table(id="vllist", role="grid", width="100%").table.table-bordered.table-hover.table-striped.dataTable.responsive.nowrap
+              thead
+               tr
+                th(data-priority="1") Province
+                th(data-priority="2") District
+                th(data-priority="3") Facility
+                th(data-priority="4") Gender
+                th(data-priority="5") Age Group
+                th Tests
+                th Suppressed
+                th UnSuppressed
+                th Undetectable
+                th Tested Within 14 Days
+                th Tests on Pregnant Women
+                th Tests on BreastFeeding Mothers
+                th Baseline VL Tests
+             
+              each rowdata in tbdata
+               tr
+                td #{ rowdata.Province}
+                td #{ rowdata.District}
+                td #{ rowdata.Facility}
+                td #{ rowdata.Gender}
+                td #{ rowdata.AgeGroup}
+                td #{ rowdata.Tests}
+                td #{ rowdata.Suppressed}
+                td #{ rowdata.Unsuppressed}
+                td #{ rowdata.Undetectable}
+                td #{ rowdata.TATWithin14}
+                td #{ rowdata.Pregnant}
+                td #{ rowdata.BreastFeeding}
+                td #{ rowdata.BaselineVL}

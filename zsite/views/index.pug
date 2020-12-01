@@ -94,7 +94,7 @@ block content-data
        .card-header
         h4 Tests By Age Group (in Years) and Gender
        .card-body 
-        canvas(id="agbarchart",style="min-height: 350px; height: 100%; max-height: 100%; max-width: 100%;").chart
+        canvas(id="agbarchart",style="min-height: 400px; height: 100%; max-height: 100%; max-width: 100%;").chart
         script(type='text/javascript').
          var labels = ['<1','1-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50+','Age Missing'];
          var data = [#{obj.lt01},#{obj._1to4},#{obj._5to9},#{obj._10to14},#{obj._15to19},#{obj._20to24},#{obj._25to29},#{obj._30to34},#{obj._35to39},#{obj._40to44},#{obj._45to49},#{obj._50plus},#{obj.AgeMissing}];

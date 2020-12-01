@@ -51,7 +51,7 @@ block content-data
        .card-header
         h4 Early Infant Diagnosis Testing Trends for the Last 12 Months
        .card-body 
-        canvas(id="trendchart1",style="min-height: 250px; height: 250px; max-height: 100%; max-width: 100%;").chart
+        canvas(id="trendchart2",style="min-height: 250px; height: 250px; max-height: 100%; max-width: 100%;").chart
         script(type='text/javascript').
          var labels = [#{obj.map(item =>'\''+item.MonthID+'\'')}];
          var data = [#{obj.map(item =>item.Tests)}];

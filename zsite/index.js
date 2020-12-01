@@ -421,6 +421,14 @@ app.get("/vlclients", (req, res, next) => {
         }
         return callback(error || new Error('Response non-200'));
       })
+    },
+    function(callback) {
+      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/vlcblists', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          return callback(null, response);
+        }
+        return callback(error || new Error('Response non-200'));
+      })
     }
   ],
   // optional callback
@@ -428,7 +436,7 @@ app.get("/vlclients", (req, res, next) => {
     if (err) {
       // Handle or return error
     }
-    res.render('vlclients', {title: 'LIS Dashboard',loc:'index',obj: JSON.parse(results[0].body),obj2 : JSON.parse(results[1].body)});
+    res.render('vlclients', {title: 'LIS Dashboard',loc:'index',obj: JSON.parse(results[0].body),obj2 : JSON.parse(results[1].body),obj3 : JSON.parse(results[2].body)});
   })
 }); 
 
@@ -458,6 +466,14 @@ app.get("/vlclients", (req, res, next) => {
       }
       return callback(error || new Error('Response non-200'));
     })
+  },
+  function(callback) {
+    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/vlcblists'+qry, function(error, response, body) {
+      if (!error && response.statusCode == 200) {
+        return callback(null, response);
+      }
+      return callback(error || new Error('Response non-200'));
+    })
   }
 ],
 // optional callback
@@ -466,7 +482,7 @@ function(err, results) {
     // Handle or return error
   }
   
-  res.render('vlclients', {title: 'LIS Dashboard',loc:'index',obj: JSON.parse(results[0].body),obj2 : JSON.parse(results[1].body), province: province, district: district, facility: facility, start: stdate, end : edate});
+  res.render('vlclients', {title: 'LIS Dashboard',loc:'index',obj: JSON.parse(results[0].body),obj2 : JSON.parse(results[1].body),obj3 : JSON.parse(results[2].body), province: province, district: district, facility: facility, start: stdate, end : edate});
 }) 
  
     

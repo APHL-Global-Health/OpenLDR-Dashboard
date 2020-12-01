@@ -94,7 +94,7 @@ block content-data
        .card-header
         h4 Tests By Age Group (in Years) and Gender
        .card-body 
-        canvas(id="agbarchart",style="min-height: 100%; height: 100%; max-height: 100%; max-width: 100%;").chart
+        canvas(id="agbarchart",style="min-height: 400px; height: 100%; max-height: 100%; max-width: 100%;").chart
         script(type='text/javascript').
          var labels = ['At Birth','1-6 Weeks','7 Weeks - 6 Months','7 - 9 Months','10 - 12 Months','13 - 18 Months','19 - 24 Months','Over 2 yrs old','Age Missing'];
          var data = [#{obj.At_Birth},#{obj._1_to_6wks},#{obj._7wks_to_6Ms},#{obj._7_to_9Ms},#{obj._10_to_12Ms},#{obj._13_to_18Ms},#{obj._19_to_24Ms},#{obj.Over_2Y},#{obj.AgeMissing}];

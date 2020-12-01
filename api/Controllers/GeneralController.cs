@@ -245,6 +245,40 @@ namespace OpenLDR.Dashboard.API.Controllers
         }
 
         //Example = https://[Domain]:[Port]/api/openldr/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/orglevel
+        [HttpGet("{apikey}/v{version}/{returntype}/vlcblists")]
+        public async Task<string> GetVLCBLists(string apikey, double version, string returntype, [FromQuery] string province, [FromQuery] string district, /*[FromQuery] string facility,*/ [FromQuery] DateTime stdate, [FromQuery] DateTime edate)
+        {
+            try
+            {
+                if (version.Equals(ApiVersion))
+                {
+                    if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
+                    {
+                        if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
+                        {
+
+                            if (!string.IsNullOrEmpty(ConnectionString))
+                            {
+                                var VLCBLists = VLClientBasedList.All(ApiConfiguration, ConnectionString, province, district, stdate, edate);
+
+                                var list = new List<VLClientBasedList>();
+                                list.AddRange(VLCBLists);
+
+                                return await list.ToReturnType(returntype);
+                            }
+                            else return await Core.ToReturnType(new Response("Failed", "Something Wrong...."), returntype);
+
+                        }
+                        else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
+                    }
+                    else return await Core.OutputText("Supported return types are json and xml only.");
+                }
+                else return await Core.OutputText("Version not yet implemented");
+            }
+            catch (Exception ex) { return await Core.ToReturnType(new Response("Failed", ex.Message), "json"); }
+        }
+
+        //Example = https://[Domain]:[Port]/api/openldr/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/orglevel
         [HttpGet("{apikey}/v{version}/{returntype}/vltrends")]
         public async Task<string> GetVLTrends(string apikey, double version, string returntype, [FromQuery] string province, [FromQuery] string district, [FromQuery] string facility)
         {

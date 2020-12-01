@@ -213,6 +213,72 @@ function renderChart(){
                             }
                           });
                           }
+                          else if(document.getElementById('trendchart2')){
+                            var ctx = document.getElementById('trendchart2').getContext('2d');
+  var barchart = new Chart(ctx,
+                          {
+                            type: 'line',
+                            data: {
+                              labels: labels,
+                              datasets: [{
+                                label: 'Tests',
+                                data: data,
+                                backgroundColor: '#3e95cd',
+                                borderColor: '#3e95cd',
+                                lineTension: 0.1,
+                                fill: false
+                              },{
+                                label: 'Positive',
+                                data: data_m,
+                                backgroundColor: '#8e5ea2',
+                                borderColor: '#8e5ea2',
+                                lineTension: 0.1,
+                                fill: false
+                              },{
+                                label: 'Negative',
+                                data: data_f,
+                                backgroundColor: '#3cba9f',
+                                borderColor: '#3cba9f',
+                                lineTension: 0.1,
+                                fill: false
+                              },{
+                                label: 'Tested within 14 days',
+                                data: data_i,
+                                backgroundColor: '#e8c3b9',
+                                borderColor: '#e8c3b9',
+                                lineTension: 0.1,
+                                fill: false
+                              }]
+                            },
+                            options: {
+                              tooltips: {
+
+                              },
+                              scales:{
+                                xAxes: [
+                                  {
+                                    stacked: false,
+                                    scaleLabel: {
+                                      display: true,
+                                      labelString: 'Months'
+                                    }
+                                  }
+                                ],
+                                yAxes: [
+                                  {
+                                    stacked: false,
+                                    scaleLabel: {
+                                      display: true,
+                                      labelString: 'Number of Tests'
+                                    }
+                                  }
+                                ]
+                              },
+                              responsive: true,
+                              legend: {position: 'bottom'}
+                            }
+                          });
+                          }
 }
 if(window.location.href.indexOf("/") != -1)
 renderChart();
