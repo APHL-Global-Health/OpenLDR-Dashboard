@@ -16,7 +16,7 @@ namespace OpenLDR.Dashboard.API.Models
 		public string District { get; set; }
 		public string Facility { get; set; }
 		#endregion
-		 
+		
 		#region Constructor
 		public OrgLevel()
 		{
