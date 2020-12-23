@@ -7,3 +7,5 @@ api/Properties/
 optimizer/obj/
 optimizer/bin/
 /.vs
+zsite/config/
+zsite/node_modules/

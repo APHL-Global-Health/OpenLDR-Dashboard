@@ -10,8 +10,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 var async = require('async');
-const apikey='e98389ca62d99875ba7a4e0f2929960b';
-const apiversion='v1';
+const config = require('config');
+const apikey=config.get('api.key');
+const apiversion = config.get('api.version');
+const api_root_url = config.get('api.root_url');
 /**
  * App Variables
  */
@@ -19,7 +21,7 @@ const apiversion='v1';
 const app = express();
 const port = process.env.PORT || 5000;
 const request = require('request');
-var obj2;
+//var obj2;
 /**
  *  App Configuration
  */
@@ -28,7 +30,7 @@ app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname ,"public")));
 app.use(bodyParser.urlencoded({extended: true}));
-
+console.log( path.join(__dirname, "views"));
 
 /**
  * Routes Definitions
@@ -37,7 +39,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get("/", (req, res, next) => {
   async.parallel([
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralload', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/viralload', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -45,7 +47,7 @@ app.get("/", (req, res, next) => {
       })
     },
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -55,7 +57,7 @@ app.get("/", (req, res, next) => {
 
     
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralloadlists', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/viralloadlists', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -84,7 +86,7 @@ app.get("/", (req, res, next) => {
     
  async.parallel([
   function(callback) {
-    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralload'+qry, function(error, response, body) {
+    request(api_root_url+apikey+'/'+apiversion+'/json/viralload'+qry, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         return callback(null, response);
       }
@@ -92,7 +94,7 @@ app.get("/", (req, res, next) => {
     })
   },
   function(callback) {
-    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+    request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
       if (!error && response.statusCode == 200) {
         return callback(null, response);
       }
@@ -101,7 +103,7 @@ app.get("/", (req, res, next) => {
   },
   
 function(callback) {
-  request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralloadlists'+qry, function(error, response, body) {
+  request(api_root_url+apikey+'/'+apiversion+'/json/viralloadlists'+qry, function(error, response, body) {
     if (!error && response.statusCode == 200) {
       return callback(null, response);
     }
@@ -125,7 +127,7 @@ function(err, results) {
 app.get("/vllists", (req, res, next) => {
   async.parallel([
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralloadlists', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/viralloadlists', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -133,7 +135,7 @@ app.get("/vllists", (req, res, next) => {
       })
     },
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -163,7 +165,7 @@ app.post('/vllists',function(req,res){
   
 async.parallel([
 function(callback) {
-  request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/viralloadlists'+qry2, function(error, response, body) {
+  request(api_root_url+apikey+'/'+apiversion+'/json/viralloadlists'+qry2, function(error, response, body) {
     if (!error && response.statusCode == 200) {
       return callback(null, response);
     }
@@ -171,7 +173,7 @@ function(callback) {
   })
 },
 function(callback) {
-  request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+  request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
     if (!error && response.statusCode == 200) {
       return callback(null, response);
     }
@@ -197,7 +199,7 @@ res.render('vllists', {title: 'LIS Dashboard',loc:'index',obj: JSON.parse(result
 app.get("/vltrends", (req, res, next) => {
   async.parallel([
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/vltrends', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/vltrends', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -205,7 +207,7 @@ app.get("/vltrends", (req, res, next) => {
       })
     },
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -232,7 +234,7 @@ app.get("/vltrends", (req, res, next) => {
     
  async.parallel([
   function(callback) {
-    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/vltrends'+qry, function(error, response, body) {
+    request(api_root_url+apikey+'/'+apiversion+'/json/vltrends'+qry, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         return callback(null, response);
       }
@@ -240,7 +242,7 @@ app.get("/vltrends", (req, res, next) => {
     })
   },
   function(callback) {
-    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+    request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
       if (!error && response.statusCode == 200) {
         return callback(null, response);
       }
@@ -266,7 +268,7 @@ function(err, results) {
 app.get("/eidtrends", (req, res, next) => {
   async.parallel([
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/eidtrends', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/eidtrends', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -274,7 +276,7 @@ app.get("/eidtrends", (req, res, next) => {
       })
     },
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -301,7 +303,7 @@ app.get("/eidtrends", (req, res, next) => {
     
  async.parallel([
   function(callback) {
-    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/eidtrends'+qry, function(error, response, body) {
+    request(api_root_url+apikey+'/'+apiversion+'/json/eidtrends'+qry, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         return callback(null, response);
       }
@@ -309,7 +311,7 @@ app.get("/eidtrends", (req, res, next) => {
     })
   },
   function(callback) {
-    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+    request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
       if (!error && response.statusCode == 200) {
         return callback(null, response);
       }
@@ -336,7 +338,7 @@ function(err, results) {
 app.get("/eidtests", (req, res, next) => {
   async.parallel([
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/eid', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/eid', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -344,7 +346,7 @@ app.get("/eidtests", (req, res, next) => {
       })
     },
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -374,7 +376,7 @@ app.post('/eidtests',function(req,res){
   
 async.parallel([
 function(callback) {
-  request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/eid'+qry2, function(error, response, body) {
+  request(api_root_url+apikey+'/'+apiversion+'/json/eid'+qry2, function(error, response, body) {
     if (!error && response.statusCode == 200) {
       return callback(null, response);
     }
@@ -382,7 +384,7 @@ function(callback) {
   })
 },
 function(callback) {
-  request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+  request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
     if (!error && response.statusCode == 200) {
       return callback(null, response);
     }
@@ -407,7 +409,7 @@ res.render('eidtests', {title: 'LIS Dashboard - EID Tests',obj: JSON.parse(resul
 app.get("/vlclients", (req, res, next) => {
   async.parallel([
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/vlclientinfo', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/vlclientinfo', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -415,7 +417,7 @@ app.get("/vlclients", (req, res, next) => {
       })
     },
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -423,7 +425,7 @@ app.get("/vlclients", (req, res, next) => {
       })
     },
     function(callback) {
-      request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/vlcblists', function(error, response, body) {
+      request(api_root_url+apikey+'/'+apiversion+'/json/vlcblists', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           return callback(null, response);
         }
@@ -452,7 +454,7 @@ app.get("/vlclients", (req, res, next) => {
     
  async.series([
   function(callback) {
-    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/vlclientinfo'+qry, function(error, response, body) {
+    request(api_root_url+apikey+'/'+apiversion+'/json/vlclientinfo'+qry, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         return callback(null, response);
       }
@@ -460,7 +462,7 @@ app.get("/vlclients", (req, res, next) => {
     })
   },
   function(callback) {
-    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
+    request(api_root_url+apikey+'/'+apiversion+'/json/orglevel', function(error, response, body) {
       if (!error && response.statusCode == 200) {
         return callback(null, response);
       }
@@ -468,7 +470,7 @@ app.get("/vlclients", (req, res, next) => {
     })
   },
   function(callback) {
-    request('http://lis.moh.gov.zm/api/api/openldr/general/'+apikey+'/'+apiversion+'/json/vlcblists'+qry, function(error, response, body) {
+    request(api_root_url+apikey+'/'+apiversion+'/json/vlcblists'+qry, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         return callback(null, response);
       }

@@ -82,11 +82,11 @@ block content-data
         h4 Suppression Statistics
        .card-body
         .text-center
-         input(type=text, value=(100*obj.SuppressedC/obj.Clients).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.SuppressedC/obj.Clients, data-fgColor=(obj.SuppressionRate>=0.9)? "#009933" : (obj.SuppressionRate>=0.8)? "#FFA500" :"#ff3333", data-readOnly="true", data-diameter="80px").knob
+         input(type=text, value=(100*obj.SuppressedC/obj.Clients).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.SuppressedC/obj.Clients, data-fgColor=((obj.SuppressedC/obj.Clients)>=0.9)? "#009933" : ((obj.SuppressedC/obj.Clients)>=0.8)? "#FFA500" :"#ff3333", data-readOnly="true", data-diameter="80px").knob
          .knob-label 
           b Suppression (%)
         .text-center
-         input(type=text, value=(obj.UndetectableC*100/obj.Clients).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.UndetectableC/obj.Clients, data-fgColor="#FFA500", data-readOnly="true", data-diameter="80px").knob
+         input(type=text, value=(obj.UndetectableC*100/obj.Clients).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.UndetectableC/obj.Clients, data-fgColor=((obj.UndetectableC/obj.Clients)>=0.6)? "#009933" : ((obj.UndetectableC/obj.Clients)>=0.5)? "#FFA500" :"#ff3333", data-readOnly="true", data-diameter="80px").knob
          .knob-label 
           b U=U/Undetectable (%)
      .col-xl-6.col-lg-6.col-md-6.col-sm-12.col-xs-12
@@ -106,19 +106,20 @@ block content-data
      .col-xl-3.col-lg-3.col-md-3.col-sm-12.col-xs-12
       div(style="height:100%").card.mb-3.elevation-1
        .card-header
-        h4 Turn Around Time Statistics
+        //h4 Turn Around Time Statistics
        .card-body
         .text-center
          //input(type=text, value=(100*obj.TATWithin14).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=100*obj.TATWithin14, data-fgColor=(obj.TATWithin14>=0.8)? "#009933": (obj.TATWithin14>=0.5)? "#FFA500" :"#ff3333", data-readOnly="true", data-width="100%", data-heght="100%").knob
          .knob-label 
-          b Samples Tested within 14 days (%)
+          //b Samples Tested within 14 days (%)
         .text-center
          //input(type=text, value=(obj.AverageTAT).toLocaleString(undefined, {maximumFractionDigits:1}), data-skin="tron", data-thickness="0.2", data-value=obj.AverageTAT, data-fgColor=(obj.AverageTAT>14)? "#ff3333" :"#009933", data-readOnly="true", data-width="100%", data-heght="100%").knob
          .knob-label 
-          b Average Turn Around Time (days)
+          //b Average Turn Around Time (days)
     .row
+      
       .col-12
-       .card
+       .card.mb-3.elevation-1
         .card-header
          h3.card-title Listed Viral Load Client Statistics
         .card-body
@@ -134,29 +135,95 @@ block content-data
                 th(data-priority="1") Province
                 th(data-priority="2") District
                 th(data-priority="3") Facility
-                th(data-priority="4") Gender
-                th(data-priority="5") Age Group
-                th Tests
-                th Suppressed
+                th(data-priority="4") Clients
+                th(data-priority="5") Suppressed
                 th UnSuppressed
                 th Undetectable
-                th Tested Within 14 Days
-                th Tests on Pregnant Women
-                th Tests on BreastFeeding Mothers
-                th Baseline VL Tests
+                th Male &lt;1 yr
+                th Male 1 - 4 yrs
+                th Male 5 - 9 yrs
+                th Male 10-14 yrs
+                th Male 15-19 yrs
+                th Male 20-24 yrs
+                th Male 25-29 yrs
+                th Male 30-34 yrs
+                th Male 35-39 yrs
+                th Male 40-44 yrs
+                th Male 45-49 yrs
+                th Male 50+ yrs
+                th Male (Age Missing)
+                th Female &lt;1 yr
+                th Female 1 - 4 yrs
+                th Female 5 - 9 yrs
+                th Female 10-14 yrs
+                th Female 15-19 yrs
+                th Female 20-24 yrs
+                th Female 25-29 yrs
+                th Female 30-34 yrs
+                th Female 35-39 yrs
+                th Female 40-44 yrs
+                th Female 45-49 yrs
+                th Female 50+ yrs
+                th Female (Age Missing)
+                th Indeterminate &lt;1 yr
+                th Indeterminate 1 - 4 yrs
+                th Indeterminate 5 - 9 yrs
+                th Indeterminate 10-14 yrs
+                th Indeterminate 15-19 yrs
+                th Indeterminate 20-24 yrs
+                th Indeterminate 25-29 yrs
+                th Indeterminate 30-34 yrs
+                th Indeterminate 35-39 yrs
+                th Indeterminate 40-44 yrs
+                th Indeterminate 45-49 yrs
+                th Indeterminate 50+ yrs
+                th Indeterminate (Age Missing)
              
               each rowdata in tbdata
                tr
                 td #{ rowdata.Province}
                 td #{ rowdata.District}
                 td #{ rowdata.Facility}
-                td #{ rowdata.Gender}
-                td #{ rowdata.AgeGroup}
-                td #{ rowdata.Tests}
-                td #{ rowdata.Suppressed}
-                td #{ rowdata.Unsuppressed}
-                td #{ rowdata.Undetectable}
-                td #{ rowdata.TATWithin14}
-                td #{ rowdata.Pregnant}
-                td #{ rowdata.BreastFeeding}
-                td #{ rowdata.BaselineVL}
+                td #{ rowdata.Clients}
+                td #{ rowdata.SuppressedC}
+                td #{ rowdata.UnsuppressedC}
+                td #{ rowdata.UndetectableC}
+                td #{ rowdata.lt01m}
+                td #{ rowdata._1to4m}
+                td #{ rowdata._5to9m}
+                td #{ rowdata._10to14m}
+                td #{ rowdata._15to19m}
+                td #{ rowdata._20to24m}
+                td #{ rowdata._25to29m}
+                td #{ rowdata._30to34m}
+                td #{ rowdata._35to39m}
+                td #{ rowdata._40to44m}
+                td #{ rowdata._45to49m}
+                td #{ rowdata._50plusm}
+                td #{ rowdata.AgeMissingm}
+                td #{ rowdata.lt01f}
+                td #{ rowdata._1to4f}
+                td #{ rowdata._5to9f}
+                td #{ rowdata._10to14f}
+                td #{ rowdata._15to19f}
+                td #{ rowdata._20to24f}
+                td #{ rowdata._25to29f}
+                td #{ rowdata._30to34f}
+                td #{ rowdata._35to39f}
+                td #{ rowdata._40to44f}
+                td #{ rowdata._45to49f}
+                td #{ rowdata._50plusf}
+                td #{ rowdata.AgeMissingf}
+                td #{ rowdata.lt0i}
+                td #{ rowdata._1to4i}
+                td #{ rowdata._5to9i}
+                td #{ rowdata._10to14i}
+                td #{ rowdata._15to19i}
+                td #{ rowdata._20to24i}
+                td #{ rowdata._25to29i}
+                td #{ rowdata._30to34i}
+                td #{ rowdata._35to39i}
+                td #{ rowdata._40to44i}
+                td #{ rowdata._45to49i}
+                td #{ rowdata._50plusi}
+                td #{ rowdata.AgeMissingi}
