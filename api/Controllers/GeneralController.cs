@@ -373,6 +373,31 @@ namespace OpenLDR.Dashboard.API.Controllers
         }
 
 
+        //Example = https://[Domain]:[Port]/api/openldr/general/e98389ca62d99875ba7a4e0f2929960b/v1/json/viralload
+        [HttpGet("{apikey}/v{version}/{returntype}/vllabstats")]
+        public async Task<string> GetVLLabStats(string apikey, double version, string returntype, [FromQuery] DateTime stdate, [FromQuery] DateTime edate)
+        {
+            try
+            {
+                if (version.Equals(ApiVersion))
+                {
+                    if (!string.IsNullOrEmpty(returntype) && ValidReturnTypes != null && ValidReturnTypes.Contains(returntype.ToLower()))
+                    {
+                        if (!string.IsNullOrEmpty(apikey) && apikey.Length == 32 && ApiKey == apikey)
+                        {
+
+                            return await VLLabStats.All(ApiConfiguration, ConnectionString, stdate, edate).ToReturnType(returntype);
+                        }
+                        else return await Core.ToReturnType(new Response("Failed", "Invalid apikey"), returntype);
+                    }
+                    else return await Core.OutputText("Supported return types are json and xml only.");
+                }
+                else return await Core.OutputText("Version not yet implemented");
+            }
+            catch (Exception ex) { return await Core.ToReturnType(new Response("Failed", ex.Message), "json"); }
+        }
+
+
         #endregion
     }
 }
