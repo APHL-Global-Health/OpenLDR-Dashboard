@@ -17,6 +17,7 @@ namespace OpenLDR.Dashboard.API
 		public string Class { get; set; }
 		public int TotalCount { get; set; }
 		public int ResultCount { get; set; }
+		//public double Ratio { get; set; }
 		#endregion
 
 		#region Constructor
@@ -62,7 +63,7 @@ namespace OpenLDR.Dashboard.API
 						Drug = dataReader["Drug"].ToString(),
 						Class = dataReader["Class"].ToString(),
 						TotalCount = int.Parse(dataReader["TotalCount"].ToString()),
-						//Ratio = double.Parse(dataReader["Ratio"].ToString())
+						ResultCount = int.Parse(dataReader["ResultCount"].ToString())
 					});
 				}
 				connection.Close();
